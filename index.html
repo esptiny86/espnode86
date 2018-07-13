@@ -44,6 +44,11 @@
         <!-- <script src="../src/io/json.js"></script> -->
 
 
+        <script src="vendor/vex.combined.min.js"></script>
+        <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
+        <link rel="stylesheet" href="vendor/vex.css" />
+        <link rel="stylesheet" href="vendor/vex-theme-wireframe.css" />
+
         <!-- drag drop file open -->
         <script src="vendor/filereader.js"></script>
 
@@ -56,25 +61,21 @@
         <script src="js/espexport.js"></script>
         
         <link rel="stylesheet" href="css/espnode.css"></style>
+        <link rel="stylesheet" href="css/rpd-pink.css"></style>
 
     </head>
 
     <body id="main">
         <script>
 
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
+            function replaceAll(str, find, replace) {
+                return str.replace(new RegExp(find, 'g'), replace);
+            }
 
             var finalize = Rpd.export.plain("TEST");
-
-
-            Rpd.renderNext('html', document.body, { style: 'quartz', fullPage: true,
-                                                    /*, valuesOnHover: true*/ });
-            
-            
+            Rpd.renderNext('html', document.body, { style: 'quartz', fullPage: true });
+                        
             var root = Rpd.addPatch('root');
-
             espRoot = root;
             var nodeList = root.addNode('espnode/nodelist');
 
@@ -82,19 +83,50 @@ function replaceAll(str, find, replace) {
             readAsDefault: "Text",
             on: {
                 load: function(e, file) {
-
-                // console.log(e.target.result.replace("_root_id_", root.id));
-                // var t = replaceAll(e.target.result, "_root_id_", root.id);
-                // console.log(t)
-
                 espRoot.close();
-
                 espNodeReset();
                 Rpd.import.plain(e.target.result);
-
                 }
             }
             });
+
+            document.onkeyup = function(e) {
+            if (e.which == 83) { //S
+                NodeToJSONDownload()
+            } else if (e.which == 67) { //C
+                showNodeCode()
+            };}
+            
+
+            var showNodeCode = function()
+            {
+                vex.dialog.defaultOptions.showCloseButton = false;
+266	
+                vex.dialog.open({
+                    message: 'Copy paste to your Synth.h file',
+                    showCloseButton: false,
+                    buttons: [{ text: 'OK' }],
+                    input: [
+                        '<style>',
+                            '.vex-custom-field-wrapper {',
+                                'margin: 1em 0;',
+                            '}',
+                            '.vex-custom-field-wrapper > label {',
+                                'display: inline-block;',
+                                'margin-bottom: .2em;',
+                            '}',
+                        '</style>',
+                        '<div class="vex-custom-field-wrapper">',
+                            '<div class="vex-custom-input-wrapper">',
+                                '<textarea rows="20" cols="80" style="font-size: 0.8em;">' + NodeToCpp() + '</textarea>',
+                                '</div>',
+                        '</div>'
+                    ].join(''),
+                    callback: function (data) {
+                    
+                    }
+                })
+            }
 
 
         </script>

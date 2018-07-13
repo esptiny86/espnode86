@@ -229,9 +229,12 @@ Rpd.noderenderer('espnode/nodelist', 'html', {
 });
 
 
-Rpd.noderenderer('espnode/constant', 'html', {
+Rpd.noderenderer('espnode/constant', 'html', function(){
+    var valInput;
+    
+    return  {
     first: function(bodyElm) {
-        var valInput = document.createElement('input');
+        valInput = document.createElement('input');
         valInput.style.display = 'block';
         valInput.type = 'number';
         valInput.min = 0;
@@ -243,8 +246,12 @@ Rpd.noderenderer('espnode/constant', 'html', {
                                      .map(function() { return valInput.value; })
                     }
                };
-    }
-});
+    },
+    always: function(bodyElm, inlets, outlets) {
+        // console.log(inlets)
+        valInput.value = inlets["user-value"];
+    },    
+}});
 
 
 Rpd.channelrenderer('espnode/constant', 'html', {

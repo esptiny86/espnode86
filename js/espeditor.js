@@ -318,7 +318,8 @@ var NodeToCpp = function() {
         // console.log(node.nodeclass);
         for (var key in node.nodeinletvalue) {
             // if (node.nodeclass === "ModuleConstant")
-            setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key] + ");\n";
+            if (node.nodeclass !== "DAC" && node.nodeinletvalue[key] !== 0)
+                setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key] + ");\n";
         }
     }
 
@@ -343,7 +344,7 @@ var NodeToCpp = function() {
     for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {        
         var conn = espNodeClassConnection[i];        
         if (conn.inlet_class === "DAC")
-            setup_string =  setup_string + "this->last_module = " + conn.outlet_class_alias + ";\n";
+            setup_string =  setup_string + "\n\nthis->last_module = " + conn.outlet_class_alias + ";\n";
     }
 
 
@@ -377,7 +378,7 @@ var NodeToPlainNetwork = function()
         for (var j = 0, m = node.nodeoutlet.length; j < m; j++) {
             var outlet = node.nodeoutlet[j];
             outlet.alias = encodeURIComponent(outlet.alias);
-            outlet.value = encodeURIComponent(inlet.value);
+            outlet.value = encodeURIComponent(outlet.value);
 
             plain_network = plain_network + ("node/add-outlet "+ node.nodeid +" "+ outlet.id +" "+outlet.type+" "+outlet.alias+" "+outlet.value+"") + "\n";
         

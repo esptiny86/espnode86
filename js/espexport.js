@@ -214,7 +214,7 @@
               nodes[command[0]].turnOff();
           },
           'node/add-inlet': function(command) {
-              console.log(command);
+            //   console.log(command);
               // console.log(nodes[command[0]].inlets[command[3]]);
               inlets[command[1]] = nodes[command[0]].inlets[command[3]];
           },

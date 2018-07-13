@@ -145,7 +145,7 @@ var espAddInletToContainer = function(inlet)
     // console.log(inlet);
     var node_out = _.findWhere(espNodeContainer, {nodeid: inlet.node.id});
 
-    if (inlet.alias === "user-value") return;
+    if (inlet.alias === "") return;
 
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {
          if(espNodeContainer[i].nodeid === node_out.nodeid){
@@ -166,7 +166,7 @@ var espAddOutletToContainer = function(outlet)
     //node coresponding source outlet
     var node_out = _.findWhere(espNodeContainer, {nodeid: outlet.node.id});
     // console.log(outlet);
-    if (outlet.alias === "user-value") return;
+    if (outlet.alias === "") return;
 
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {
          if(espNodeContainer[i].nodeid === node_out.nodeid){
@@ -186,7 +186,7 @@ var espUpdateInletValue = function(node)
     //node coresponding destination inlet
     var node_in = _.findWhere(espNodeContainer, {nodeid: node.inlet.node.id});
     
-    if (node.inlet.alias === "user-value" || _.isUndefined(node_in) ) return;
+    if (node.inlet.alias === "" || _.isUndefined(node_in) ) return;
 
     var inlet_name = node.inlet.alias.toLowerCase();
     console.log(inlet_name)
@@ -362,8 +362,6 @@ var NodeToCpp = function() {
                 // else
                     // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "= new ModuleConstant() " + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
     }
-
-
 
 
     // For dac last module

@@ -60,9 +60,9 @@
 }
 
 .rpd-espnode-nodelist dl {
-    overflow-y: scroll;
+    /* overflow-y: ; */
     width: 180px;
-    max-height: 300px;
+    max-height: 600px;
     margin: 6px 0px 0 0;
     padding: 0;
 }

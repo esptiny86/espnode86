@@ -1,0 +1,47 @@
+.rpd-network {
+    margin: 0;
+}
+
+.rpd-full-page {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.rpd-node .rpd-drag-handle {
+    cursor: pointer;
+}
+
+.rpd-node .rpd-remove-button {
+    cursor: pointer;
+}
+
+.rpd-connector {
+    cursor: pointer;
+}
+
+.rpd-link:hover {
+    cursor: crosshair;
+}
+
+.rpd-link.rpd-disabled:hover {
+    cursor: cell;
+}
+
+.rpd-node.rpd-patch-reference .rpd-process > text {
+    cursor: pointer;
+}
+
+.rpd-inlet.rpd-readonly {
+    cursor: default;
+}
+
+.rpd-values-on-hover .rpd-inlet .rpd-value-holder,
+.rpd-values-on-hover .rpd-outlet .rpd-value-holder {
+    visibility: hidden;
+}
+
+.rpd-values-on-hover .rpd-inlet:hover .rpd-value-holder,
+.rpd-values-on-hover .rpd-outlet:hover .rpd-value-holder {
+    visibility: visible;
+}

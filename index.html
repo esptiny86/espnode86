@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Espnode86 - Audio Designer</title>
+
+        <!-- replace double equals signs with double dashes to get html head like below generated -->
+        <!-- gulp html-head ==style quartz ==renderer html ==toolkit util ==toolkit timbre ==root .. -->
+
+        <!-- or run this, and get everything combined in two files: rpd.js and rpd.css -->
+        <!-- gulp ==style quartz ==renderer html ==toolkit util ==toolkit timbre -->
+
+        <!-- Built with RPD v2.0.0 <http://shamansir.github.io/rpd> -->
+
+        <!-- RPD Renderer: html -->
+        <link rel="stylesheet" href="vendor/render/html.css"></style>
+        <!-- RPD Style: quartz (html) -->
+        <link rel="stylesheet" href="vendor/style/quartz/html.css"></style>
+        <!-- RPD Toolkit: timbre (html) -->
+        <link rel="stylesheet" href="vendor/timbre/html.css"></style>
+        <!-- RPD Toolkit: util (html) -->
+        <link rel="stylesheet" href="vendor/util/html.css"></style>
+
+        <!-- Timbre -->
+        <!-- <script src="http://mohayonao.github.io/timbre.js/timbre.js"></script> -->
+        <!-- Kefir -->
+        <script src="vendor/kefir.min.js"></script>
+        <!-- RPD -->
+        <script src="vendor/rpd-html.min.js"></script>
+
+
+        <!-- RPD Toolkit: util -->
+        <script src="vendor/util/shared.js"></script>
+        <script src="vendor/util/toolkit.js"></script>
+        <!-- RPD Toolkit: util (html) -->
+        <script src="vendor/util/html.js"></script>
+ 
+        <!-- RPD Toolkit: timbre -->
+        <!-- <script src="../src/toolkit/timbre/shared.js"></script> -->
+        <!-- <script src="../src/toolkit/timbre/toolkit.js"></script> -->
+        <!-- RPD Toolkit: timbre (html) -->
+        <!-- <script src="../src/toolkit/timbre/html.js"></script> -->
+        <!-- <script src="../src/io/json.js"></script> -->
+
+
+        <!-- drag drop file open -->
+        <script src="vendor/filereader.js"></script>
+
+        <!-- underscore -->
+        <script src="vendor/underscore.js"></script>
+
+        <!-- Espnode custom -->
+        <script src="js/espnode.js"></script>
+        <script src="js/espeditor.js"></script>
+        <script src="js/espexport.js"></script>
+        
+        <link rel="stylesheet" href="css/espnode.css"></style>
+
+    </head>
+
+    <body id="main">
+        <script>
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
+            var finalize = Rpd.export.plain("TEST");
+
+
+            Rpd.renderNext('html', document.body, { style: 'quartz', fullPage: true,
+                                                    /*, valuesOnHover: true*/ });
+            
+            
+            var root = Rpd.addPatch('root');
+
+            espRoot = root;
+            var nodeList = root.addNode('espnode/nodelist');
+
+            FileReaderJS.setupDrop(document.body, {
+            readAsDefault: "Text",
+            on: {
+                load: function(e, file) {
+
+                // console.log(e.target.result.replace("_root_id_", root.id));
+                // var t = replaceAll(e.target.result, "_root_id_", root.id);
+                // console.log(t)
+
+                espRoot.close();
+
+                espNodeReset();
+                Rpd.import.plain(e.target.result);
+
+                }
+            }
+            });
+
+
+        </script>
+    </body>
+</html>

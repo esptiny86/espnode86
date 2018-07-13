@@ -193,16 +193,7 @@
               patches[command[0]].resizeCanvas(parseFloat(command[1]), parseFloat(command[2]));
           },
           'patch/add-node': function(command) {
-              nodes[command[1]] = patches[command[0]].addNode(command[2], decodeURIComponent(command[3]));
-  
-              // for (var key in nodes[command[1]].inlets) {
-              //     nodes[command[1]].removeInlet(nodes[command[1]].inlets[key])
-              // }
-  
-              // for (var key in nodes[command[1]].outlets) {
-              //     nodes[command[1]].removeOutlet(nodes[command[1]].outlets[key])
-              // }            
-  
+              nodes[command[1]] = patches[command[0]].addNode(command[2], decodeURIComponent(command[3]));  
           },
           'patch/remove-node': function(command) {
               patches[command[0]].removeNode(nodes[command[1]]);

@@ -216,6 +216,12 @@
               outlets[command[1]] = nodes[command[0]].outlets[command[3]];
               // outlets[command[1]] = nodes[command[0]].addOutlet(command[2], command[3], decodeURIComponent(command[4]));
           },
+          'node/update-inlet': function(command) {
+              inlets[command[1]].receive(command[3])             
+          },
+          'node/update-outlet': function(command) {
+
+          },        
           'node/remove-outlet': function(command) {
               nodes[command[0]].removeOutlet(outlets[command[1]]);
           },

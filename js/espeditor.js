@@ -102,6 +102,11 @@ var exportSpec = {
         espUpdateInletValue(update);
         return [ 'inlet/update' ];
     },    
+    'outlet/update': function(update) {
+        // console.log(update.outlet);
+        espUpdateOutletValue(update);
+        return [ 'outlet/update' ];
+    },        
     'link/enable': function(update) {
         return [ 'link/enable', update.link.id ];
     },
@@ -184,12 +189,32 @@ var espUpdateInletValue = function(node)
     if (node.inlet.alias === "user-value" || _.isUndefined(node_in) ) return;
 
     var inlet_name = node.inlet.alias.toLowerCase();
+    console.log(inlet_name)
 
     if(node.value === "")
     {
         delete node_in.nodeinletvalue[inlet_name];
     }else{
         node_in.nodeinletvalue[inlet_name] = node.value;
+    }
+}
+
+var espUpdateOutletValue = function(node)
+{
+    //node coresponding destination inlet
+    var node_in = _.findWhere(espNodeContainer, {nodeid: node.outlet.node.id});
+    
+    if (node.outlet.alias === "user-value" || _.isUndefined(node_in) ) return;
+
+    var outlet_name = node.outlet.alias.toLowerCase();
+
+    // console.log(node.value)
+
+    if(node.value === "")
+    {
+        delete node_in.nodeoutletvalue[outlet_name];
+    }else{
+        node_in.nodeoutletvalue[outlet_name] = node.value;
     }
 }
 
@@ -282,6 +307,7 @@ var espAddToContainer = function(node)
         nodevariable: lowCaseFirst(node_class)  + "_" + espNodeCount[node_class],
         nodetype: node.type,
         nodeinletvalue: {},
+        nodeoutletvalue: {},    
         nodeinlet: [],
         nodeoutlet: [],
         nodeposition: {

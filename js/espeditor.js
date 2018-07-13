@@ -98,7 +98,7 @@ var exportSpec = {
         return [ 'outlet/disconnect', update.outlet.id, update.link.id ];
     },
     'inlet/update': function(update) {
-        // console.log(update);
+        console.log(update);
         espUpdateInletValue(update);
         return [ 'inlet/update' ];
     },    
@@ -189,7 +189,7 @@ var espUpdateInletValue = function(node)
     if (node.inlet.alias === "" || _.isUndefined(node_in) ) return;
 
     var inlet_name = node.inlet.alias.toLowerCase();
-    console.log(inlet_name)
+    // console.log(inlet_name)
 
     if(node.value === "")
     {
@@ -405,8 +405,8 @@ var NodeToPlainNetwork = function()
             outlet.value = encodeURIComponent(outlet.value);
 
             plain_network = plain_network + ("node/add-outlet "+ node.nodeid +" "+ outlet.id +" "+outlet.type+" "+outlet.alias+" "+outlet.value+"") + "\n";
-        
-        }            
+                
+        }              
         // plain_network = plain_network + ("node/move " + node.nodeid + " " + node.nodeposition.x + " " + node.nodeposition.y) + "\n";
     }
 
@@ -422,6 +422,19 @@ var NodeToPlainNetwork = function()
     for (var i = 0, m = espNodeClassConnection.length; i < m; i++) {      
         var conn = espNodeClassConnection[i];  
         plain_network = plain_network + ("outlet/connect " + conn.outletid + " " + conn.inletid + " " + conn.linkid) + "\n";
+    }
+
+
+    for (var i = 0, l = espNodeContainer.length; i < l; i++) {        
+        var node = espNodeContainer[i];                     
+        for (var key in node.nodeoutletvalue) {
+            var node_value = node.nodeoutletvalue[key];
+            plain_network = plain_network + "node/update-outlet " + node.nodeid + " " + outlet.id + " "   + key + " " + node_value + "\n";
+        }
+        for (var key in node.nodeinletvalue) {
+            var node_value = node.nodeinletvalue[key];
+            plain_network = plain_network + "node/update-inlet " + node.nodeid + " " + inlet.id + " "   + key + " " + node_value + "\n";
+        }
     }
 
     return(plain_network.slice(0, -1));

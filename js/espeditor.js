@@ -314,7 +314,7 @@ var NodeToCpp = function() {
         var node = espNodeContainer[i];
 
         //all except constant module
-        if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC") include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+        if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC" && node.nodeclass !== "NodeList") include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
         // console.log(node.nodeclass);
         for (var key in node.nodeinletvalue) {
             // if (node.nodeclass === "ModuleConstant")

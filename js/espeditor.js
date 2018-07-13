@@ -98,7 +98,7 @@ var exportSpec = {
         return [ 'outlet/disconnect', update.outlet.id, update.link.id ];
     },
     'inlet/update': function(update) {
-        console.log(update);
+        // console.log(update);
         espUpdateInletValue(update);
         return [ 'inlet/update' ];
     },    
@@ -195,7 +195,7 @@ var espUpdateInletValue = function(node)
     {
         delete node_in.nodeinletvalue[inlet_name];
     }else{
-        node_in.nodeinletvalue[inlet_name] = node.value;
+        node_in.nodeinletvalue[inlet_name] = [node.inlet.id, node.value];
     }
 }
 
@@ -214,7 +214,7 @@ var espUpdateOutletValue = function(node)
     {
         delete node_in.nodeoutletvalue[outlet_name];
     }else{
-        node_in.nodeoutletvalue[outlet_name] = node.value;
+        node_in.nodeoutletvalue[outlet_name] = [node.outlet.id, node.value];
     }
 }
 
@@ -424,16 +424,15 @@ var NodeToPlainNetwork = function()
         plain_network = plain_network + ("outlet/connect " + conn.outletid + " " + conn.inletid + " " + conn.linkid) + "\n";
     }
 
-
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {        
         var node = espNodeContainer[i];                     
         for (var key in node.nodeoutletvalue) {
-            var node_value = node.nodeoutletvalue[key];
-            plain_network = plain_network + "node/update-outlet " + node.nodeid + " " + outlet.id + " "   + key + " " + node_value + "\n";
+            var nodeoutlet = node.nodeoutletvalue[key];
+            plain_network = plain_network + "node/update-outlet " + node.nodeid + " " + nodeoutlet[0] + " "   + key + " " + nodeoutlet[1] + "\n";
         }
         for (var key in node.nodeinletvalue) {
-            var node_value = node.nodeinletvalue[key];
-            plain_network = plain_network + "node/update-inlet " + node.nodeid + " " + inlet.id + " "   + key + " " + node_value + "\n";
+            var nodeinlet = node.nodeinletvalue[key];
+            plain_network = plain_network + "node/update-inlet " + node.nodeid + " " + nodeinlet[0] + " "   + key + " " + nodeinlet[1] + "\n";
         }
     }
 

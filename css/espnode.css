@@ -125,7 +125,7 @@
     }
 
     .rpd-canvas{
-        overflow: scroll;
+        /* overflow: scroll; */
     }
 
     #main {

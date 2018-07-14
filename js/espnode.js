@@ -80,7 +80,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/pram',
+    nodetype: 'espnode/param',
     nodeclass: "Param",
     rpdnode : {
         title: "Parameter",    

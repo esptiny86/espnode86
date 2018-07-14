@@ -115,7 +115,7 @@
     }
 
 
-    .vex.vex-theme-wireframe .vex-content {
+    .vex.vex-theme-wireframe .vex-content, .egolab {
         font-family: 'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif !important;
     }    
 
@@ -126,4 +126,8 @@
 
     .rpd-canvas{
         overflow: scroll;
+    }
+
+    #main {
+        position: relative;
     }

@@ -92,7 +92,7 @@
 
             document.onkeyup = function(e) {
             if (e.which == 83) { //S
-                NodeToJSONDownload()
+                LoadNodeCode()
             } else if (e.which == 67) { //C
                 showNodeCode()
             };}
@@ -128,6 +128,58 @@
                 })
             }
 
+
+            var LoadNodeCode = function()
+            {
+                vex.dialog.defaultOptions.showCloseButton = false;
+266	
+                vex.dialog.open({
+                    message: 'Paste your Synth.h file here',
+                    showCloseButton: false,
+                    buttons: [{ text: 'OK' }],
+                    input: [
+                        '<style>',
+                            '.vex-custom-field-wrapper {',
+                                'margin: 1em 0;',
+                            '}',
+                            '.vex-custom-field-wrapper > label {',
+                                'display: inline-block;',
+                                'margin-bottom: .0em;',
+                            '}',
+                        '</style>',
+                        '<div class="vex-custom-field-wrapper">',
+                            '<div class="vex-custom-input-wrapper">',
+                                '<textarea id="txtimport" name="code"  rows="20" cols="80" style="font-size: 0.6em; border: solid 1px">'  + '</textarea>',
+                                '</div>',
+                        '</div>'
+                    ].join(''),
+                    callback: function(data)
+                    {
+                        // console.log(data)
+                    },
+                    onSubmit: function(event)
+                    {
+                        var code_import = (document.getElementById('txtimport').value);
+                        var start_tag = "--BEGINESPNODEPATCH--"
+                        var stop_tag = "--ENDESPNODEPATCH--"
+
+                        var start_index = code_import.indexOf(start_tag) + start_tag.length ;
+                        var last_index = code_import.indexOf(stop_tag);
+
+                        var decoded_network = (atob(code_import.substr(start_index,  last_index - start_index)));
+
+                        espRoot.close();
+                        espNodeReset();
+                        Rpd.import.plain(decoded_network);
+
+                        //NodeToCPPandNetwork().substr(42+22,261-65)
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return this.close()
+                    }
+    
+                })
+            }
 
         </script>
     </body>

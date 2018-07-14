@@ -549,6 +549,9 @@ var NodeToCPPandNetwork = function()
     var nodeCpp = NodeToCpp();
 
     var code_export = '/*\n\n This is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "\n\n" + nodeCpp;
+    
+    code_export = code_export + "\n\n// end of espnode86 generated code //\n\n";
+    
     return code_export;
 }
 

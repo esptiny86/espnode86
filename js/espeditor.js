@@ -520,10 +520,33 @@ var NodeToCPPDownload = function()
             window.URL.revokeObjectURL(url);
         };
     }());
-        
+    
+    
+
     saveData(NodeToCpp(), "patch.h"); 
 
 }
+
+var NodeToCPPandNetwork = function()
+{
+    var base64Net = chunk(btoa(NodeToPlainNetwork()), 200).join("\n");
+    var nodeCpp = NodeToCpp();
+
+    var code_export = '/*\n\n This is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "\n\n" + nodeCpp;
+    return code_export;
+}
+
+function chunk(str, n) {
+    var ret = [];
+    var i;
+    var len;
+
+    for(i = 0, len = str.length; i < len; i += n) {
+       ret.push(str.substr(i, n))
+    }
+
+    return ret
+};
 
 var spec = exportSpec;
 var lines = [ Rpd.VERSION ];

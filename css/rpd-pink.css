@@ -173,7 +173,7 @@
     font-family: 'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;
     font-size: 0.7em;
     color: #111;
-    background-color: #3c464c;
+    background-color: #444;
     margin: 0;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .rpd-node .rpd-title {
-    background-color: #617b79;
+    background-color: #7e7e7e;
     padding: 3px 5px;
     color: #eee;
 }
@@ -248,7 +248,7 @@
 .rpd-outlet .rpd-connector {
     cursor: pointer;
     border-radius: 6px;
-    border-width: 3px;
+    border-width: 4px;
     border-style: solid;
 }
 
@@ -412,7 +412,7 @@
 .rpd-node,
 .rpd-node > .rpd-title {
     /* box-shadow: 3px 3px 14px 1px rgba(33,33,33,0.7); */
-    box-shadow: -1px 5px 13px 1px rgba(30,30,30,0.8);
+    /*! box-shadow: -1px 5px 13px 1px rgba(30,30,30,0.8); */
 }
 
 .rpd-dragging .rpd-node,
@@ -425,7 +425,7 @@
     display: table-caption;
     background-clip: border-box;
     border-style: solid;
-    border-color: rgba(250,250,250,0.4);
+    border-color: rgb(200, 200, 200);
     border-width: 1px 1px 0 1px;
     border-radius: 2px 2px 0 0;
     /* border-radius: 4px 4px 0 0; */
@@ -433,11 +433,11 @@
 }
 
 .rpd-node .rpd-content {
-    border-color: rgba(250,250,250,0.4);
-    border-width: 0 1px 1px 1px;
+    border-color: rgb(200, 200, 200);
+    border-width: 0px 1px 1px 1px;
     /* border-radius: 0 0 4px 4px; */
     border-style: solid;
-    background-color: #50607e;
+    background-color: #b1b1b1;
     background-clip: border-box;
 }
 
@@ -474,7 +474,7 @@ table.rpd-node thead.rpd-title th {
 
 .rpd-name {
     padding: 4px 2px;
-    color: rgba(250,250,250,0.9);
+    color: rgb(0, 0, 0);
 }
 
 .rpd-inlet,

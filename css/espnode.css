@@ -8,8 +8,8 @@
     padding: 1px 0px 1px 0px;
     /* vertical-align: middle; */
     margin: 2px 0;
-    background-color: rgba(96,141,104,0.4);
-    border-radius: 5px;
+    background-color: rgba(126, 126, 126, 0.4);
+    /*! border-radius: 5px; */
     -webkit-transition: background-color 0.2s ease-out;
     transition: background-color 0.2s ease-out;
     /* border-color: white; */
@@ -100,11 +100,12 @@
 }
 
 .rpd-espnode-nodelist li.rpd-nodelist-selected .rpd-nodelist-fulltypename {
-    color: red;
+    color: #cecece;
 }
 
 .rpd-espnode-nodelist li.rpd-nodelist-add-effect {
-    background-color: #f00;
+    /* background-color: #CCC; */
+    /* color: #000; */
 }
 
 

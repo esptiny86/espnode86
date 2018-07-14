@@ -340,11 +340,11 @@ var NodeToCpp = function() {
         var node = espNodeContainer[i];
 
         //all except constant module
-        if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC" && node.nodeclass !== "NodeList") include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+        if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC"&& node.nodeclass !== "Param" && node.nodeclass !== "NodeList") include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
         // console.log(node.nodeclass);
         for (var key in node.nodeinletvalue) {
             // if (node.nodeclass === "ModuleConstant")
-            if (key !== "user-value" && node.nodeclass !== "DAC" && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
+            if (key !== "user-value" && node.nodeclass !== "DAC"  && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
                 setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key][1] + ");\n";
         }
     }
@@ -358,7 +358,10 @@ var NodeToCpp = function() {
                 setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
             else
                 if (conn.outlet_class !== "ModuleConstant")
-                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+                    if (conn.outlet_class === "Param")
+                        setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + '= param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
+                    else
+                        setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
                 // else
                     // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "= new ModuleConstant() " + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
     }

@@ -80,10 +80,10 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/param',
+    nodetype: 'espnode/multiplexer',
     nodeclass: "Param",
     rpdnode : {
-        title: "Parameter",    
+        title: "Multiplexer",    
         inlets: { 
         },
         outlets: { 

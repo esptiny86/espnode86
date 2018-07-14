@@ -66,7 +66,11 @@
     </head>
 
     <body id="main">
-        <div class="egolab" style="font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">Espnode86 by MANTICORE powered by RPD Framework 2.1.1 <br> Press "L" To Import, Press "C" to Copy Code, "D" to Download Code </div>
+        
+        <div class="egolab" style="line-height: 1.5em; font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">
+            Espnode86 : Audio Design Tools For Espsynth86<br> Press "S" to Save Code, "O" To Load Code, "C" to Copy Code <br> <span style="line-height: 1.5em; font-size:0.8em">Code by Manticore@EGOLAB powered by RPD Framework 2.1.1</span>
+        </div>
+
         <script>
             var modalOpen = 0;
 
@@ -94,11 +98,11 @@
             });
 
             document.onkeyup = function(e) {
-            if (e.which == 76) { //L
+            if (e.which == 79) { //O
                 LoadNodeCode();
             } else if (e.which == 67) { //C
                 showNodeCode();
-            } else if (e.which == 68) { //D
+            } else if (e.which == 83) { //D
                 NodeToCPPDownload();
             }
         

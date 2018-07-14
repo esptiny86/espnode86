@@ -124,4 +124,6 @@
         background: #FFF !important;
     }
 
-    
+    .rpd-canvas{
+        overflow: scroll;
+    }

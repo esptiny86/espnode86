@@ -87,14 +87,14 @@ NodeLibrary.push({
         inlets: { 
         },
         outlets: { 
-            'Pot 1': { type: 'espnode/string' },
-            'Pot 2': { type: 'espnode/string' },
-            'Pot 3': { type: 'espnode/string' }, 
-            'Pot 4': { type: 'espnode/string' }, 
-            'Pot 5': { type: 'espnode/string' }, 
-            'Pot 6': { type: 'espnode/string' }, 
-            'Pot 7': { type: 'espnode/string' }, 
-            'Pot 8': { type: 'espnode/string' } 
+            'Pot1': { type: 'espnode/string' },
+            'Pot2': { type: 'espnode/string' },
+            'Pot3': { type: 'espnode/string' }, 
+            'Pot4': { type: 'espnode/string' }, 
+            'Pot5': { type: 'espnode/string' }, 
+            'Pot6': { type: 'espnode/string' }, 
+            'Pot7': { type: 'espnode/string' }, 
+            'Pot8': { type: 'espnode/string' } 
         }
     }
 });

@@ -66,8 +66,9 @@
     </head>
 
     <body id="main">
-        <div class="egolab" style="font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">Espnode86 by MANTICORE powered by RPD Framework 2.1.1 <br> Press "S" To Import, Press "C" to Copy Code, "D" to Download Code </div>
+        <div class="egolab" style="font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">Espnode86 by MANTICORE powered by RPD Framework 2.1.1 <br> Press "L" To Import, Press "C" to Copy Code, "D" to Download Code </div>
         <script>
+            var modalOpen = 0;
 
             function replaceAll(str, find, replace) {
                 return str.replace(new RegExp(find, 'g'), replace);
@@ -84,23 +85,31 @@
             readAsDefault: "Text",
             on: {
                 load: function(e, file) {
-                espRoot.close();
-                espNodeReset();
-                Rpd.import.plain(e.target.result);
+                    NodeImportCpp(e.target.result);
+                // espRoot.close();
+                // espNodeReset();
+                // NodeImportCpp(e.target.result);
                 }
             }
             });
 
             document.onkeyup = function(e) {
-            if (e.which == 83) { //S
-                LoadNodeCode()
+            if (e.which == 76) { //L
+                LoadNodeCode();
             } else if (e.which == 67) { //C
-                showNodeCode()
-            };}
+                showNodeCode();
+            } else if (e.which == 68) { //D
+                NodeToCPPDownload();
+            }
+        
+        }
             
 
             var showNodeCode = function()
             {
+                if (modalOpen === 1) return;
+                modalOpen = 1;
+
                 vex.dialog.defaultOptions.showCloseButton = false;
 266	
                 vex.dialog.open({
@@ -123,6 +132,12 @@
                                 '</div>',
                         '</div>'
                     ].join(''),
+                    beforeOpen: function(){
+                        // modalOpen = 1;
+                    },
+                    beforeClose: function(){
+                        modalOpen = 0;
+                    },                                        
                     callback: function (data) {
                     
                     }
@@ -132,6 +147,8 @@
 
             var LoadNodeCode = function()
             {
+                if (modalOpen === 1) return;
+                modalOpen = 1;
                 vex.dialog.defaultOptions.showCloseButton = false;
 266	
                 vex.dialog.open({
@@ -154,6 +171,9 @@
                                 '</div>',
                         '</div>'
                     ].join(''),
+                    beforeClose: function(){
+                        modalOpen = 0;
+                    },
                     callback: function(data)
                     {
                         // console.log(data)
@@ -161,21 +181,14 @@
                     onSubmit: function(event)
                     {
                         var code_import = (document.getElementById('txtimport').value);
-                        var start_tag = "--BEGINESPNODEPATCH--"
-                        var stop_tag = "--ENDESPNODEPATCH--"
-
-                        var start_index = code_import.indexOf(start_tag) + start_tag.length ;
-                        var last_index = code_import.indexOf(stop_tag);
-
-                        var decoded_network = (atob(code_import.substr(start_index,  last_index - start_index)));
-
-                        espRoot.close();
-                        espNodeReset();
-                        Rpd.import.plain(decoded_network);
+                        NodeImportCpp(code_import);
 
                         //NodeToCPPandNetwork().substr(42+22,261-65)
                         event.stopPropagation();
                         event.preventDefault();
+                        
+                        modalOpen = 0;
+
                         return this.close()
                     }
     

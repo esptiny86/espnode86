@@ -504,6 +504,22 @@ var NodeToJSONDownload = function()
     saveData(NodeToPlainNetwork(), "patch.txt"); 
 }
 
+var NodeImportCpp = function (code)
+{
+    var code_import = code;
+    var start_tag = "--BEGINESPNODEPATCH--"
+    var stop_tag = "--ENDESPNODEPATCH--"
+
+    var start_index = code_import.indexOf(start_tag) + start_tag.length ;
+    var last_index = code_import.indexOf(stop_tag);
+
+    var decoded_network = (atob(code_import.substr(start_index,  last_index - start_index)));
+
+    espRoot.close();
+    espNodeReset();
+    Rpd.import.plain(decoded_network);
+}
+
 var NodeToCPPDownload = function()
 {
     var saveData = (function () {
@@ -523,7 +539,7 @@ var NodeToCPPDownload = function()
     
     
 
-    saveData(NodeToCpp(), "patch.h"); 
+    saveData(NodeToCPPandNetwork(), "patch.h"); 
 
 }
 

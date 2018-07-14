@@ -4,11 +4,26 @@ NodeLibrary.push({
     nodetype: 'espnode/mixer3',
     nodeclass: "ModuleMixer3",
     rpdnode : {
-        title: "3 Channel Mixer",    
+        title: "3 Ch Mixer",    
         inlets: { 
             'ch1': { type: 'espnode/string', default: ""} ,
             'ch2': { type: 'espnode/string', default: ""} ,
-            'ch3': { type: 'espnode/string'} 
+            'ch3': { type: 'espnode/string', default: ""} 
+        },
+        outlets: { 
+            'Out': { type: 'espnode/string'} 
+        }
+    }
+});
+
+NodeLibrary.push({
+    nodetype: 'espnode/mixer2',
+    nodeclass: "ModuleMixer2",
+    rpdnode : {
+        title: "2 Ch Mixer",    
+        inlets: { 
+            'ch1': { type: 'espnode/string', default: ""} ,
+            'ch2': { type: 'espnode/string', default: ""} ,
         },
         outlets: { 
             'Out': { type: 'espnode/string'} 
@@ -19,12 +34,12 @@ NodeLibrary.push({
 
 NodeLibrary.push({
     nodetype: 'espnode/oscillator',
-    nodeclass: "ModuleOscillator",
+    nodeclass: "ModuleWavetableOsc",
     rpdnode : {
         title: "Oscillator",    
         inlets: { 
-            'Frequency': { type: 'espnode/string' } ,
-            'Wavetable': { type: 'espnode/string' } ,
+            'frequency_input': { type: 'espnode/string' } ,
+            'wavetable_input': { type: 'espnode/string' } ,
         },
         outlets: { 
             'Out': { type: 'espnode/string' } 
@@ -47,6 +62,42 @@ NodeLibrary.push({
     }
 });
 
+NodeLibrary.push({
+    nodetype: 'espnode/lowpass',
+    nodeclass: "ModuleLowpassFilter",
+    rpdnode : {
+        title: "Low Pass Filter",    
+        inlets: { 
+            'audio_input': { type: 'espnode/string' } ,
+            'cutoff_input': { type: 'espnode/string' } ,
+            'resonance_input': { type: 'espnode/string' } ,
+        },
+        outlets: { 
+            'Out': { type: 'espnode/string' } 
+        }
+    }
+});
+
+
+NodeLibrary.push({
+    nodetype: 'espnode/pram',
+    nodeclass: "Param",
+    rpdnode : {
+        title: "Parameter",    
+        inlets: { 
+        },
+        outlets: { 
+            'Pot 1': { type: 'espnode/string' },
+            'Pot 2': { type: 'espnode/string' },
+            'Pot 3': { type: 'espnode/string' }, 
+            'Pot 4': { type: 'espnode/string' }, 
+            'Pot 5': { type: 'espnode/string' }, 
+            'Pot 6': { type: 'espnode/string' }, 
+            'Pot 7': { type: 'espnode/string' }, 
+            'Pot 8': { type: 'espnode/string' } 
+        }
+    }
+});
 
 NodeLibrary.push({
     nodetype: 'espnode/delay',

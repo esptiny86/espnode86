@@ -344,7 +344,7 @@ var NodeToCpp = function() {
         // console.log(node.nodeclass);
         for (var key in node.nodeinletvalue) {
             // if (node.nodeclass === "ModuleConstant")
-            if (key !== "user-value" && node.nodeclass !== "DAC" && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0")
+            if (key !== "user-value" && node.nodeclass !== "DAC" && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
                 setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key][1] + ");\n";
         }
     }

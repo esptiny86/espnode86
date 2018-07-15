@@ -204,7 +204,7 @@ var espUpdateOutletValue = function(node)
     //node coresponding destination inlet
     var node_in = _.findWhere(espNodeContainer, {nodeid: node.outlet.node.id});
     
-    if (node.outlet.alias === "user-value" || _.isUndefined(node_in) ) return;
+    if (node.outlet.alias === "" || _.isUndefined(node_in) ) return;
 
     var outlet_name = node.outlet.alias.toLowerCase();
 

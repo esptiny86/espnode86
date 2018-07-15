@@ -189,6 +189,22 @@ NodeLibrary.push({
 });
 
 
+NodeLibrary.push({
+    nodetype: 'espnode/clock',
+    nodeclass: "ModuleClock",
+    rpdnode: {
+        title: 'Clock Gen',
+        inlets:  { 
+            'bpm': { type: 'espnode/string', default: 0, hidden: true },
+            'division': { type: 'espnode/string', default: 0, hidden: true },            
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
 var d3 = d3 || d3_tiny;
 var NodeList = RpdUtils.NodeList;
 var getNodeTypesByToolkit = RpdUtils.getNodeTypesByToolkit;
@@ -309,6 +325,7 @@ Rpd.noderenderer('espnode/nodelist', 'html', {
 });
 
 
+
 Rpd.noderenderer('espnode/constant', 'html', function(){
     var valInput;
     
@@ -334,6 +351,42 @@ Rpd.noderenderer('espnode/constant', 'html', function(){
 }});
 
 
+Rpd.noderenderer('espnode/clock', 'html', function(){
+    var valInput;
+    
+    return  {
+    first: function(bodyElm) {
+        valInput = document.createElement('input');
+        valInput.style.display = 'block';
+        valInput.type = 'number';
+        valInput.min = 0;
+        valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+        valClock = document.createElement('input');
+        valClock.style.display = 'block';
+        valClock.type = 'number';
+        valClock.min = 0;
+        valClock.max = 1000;
+        bodyElm.appendChild(valClock);
+
+        return { 'bpm':
+                    { 
+                        default: function() { valInput.value = 0; return 0; }, valueOut: Kefir.fromEvents(valInput, 'change').map(function() { return valInput.value; })
+                    },
+                    'division': {
+                        default: function() { valClock.value = 0; return 0; }, valueOut: Kefir.fromEvents(valClock, 'change').map(function() { return valClock.value; })
+                    }
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+        // console.log(inlets)
+        valInput.value = inlets["bpm"];
+        valClock.value = inlets["division"];
+
+    },    
+}});
+
 Rpd.channelrenderer('espnode/constant', 'html', {
     /* show: function(target, value) { }, */
     edit: function(target, inlet, valueIn) {
@@ -347,6 +400,7 @@ Rpd.channelrenderer('espnode/constant', 'html', {
                     .map(function() { return valInput.value; });
     }
 });
+
 
 // Rpd.channeltype('espnode/string', {
 //     allow: [ 'util/number' ]

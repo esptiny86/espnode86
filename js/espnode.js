@@ -513,9 +513,10 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
         valInput.style.width = '150px';
         valInput.style.height = '100px';
         valInput.style.color = "#000";
-        valInput.style.background = "#e7dbd9";
+        valInput.style.background = "#CCC";
         valInput.style.fontSize = "1.25em";
         valInput.style.padding = "1em";
+        valInput.style.fontFamily = "'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;";
 
         // valInput.type = 'number';
         // valInput.min = 0;
@@ -524,7 +525,7 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
 
           
         return { 'comment':
-                    { default: function() { valInput.value = 0; return 0; },
+                    { default: function() { valInput.value = 0; return "type comment here.."; },
                       valueOut: Kefir.fromEvents(valInput, 'change')
                                      .map(function() { return encodeURIComponent(valInput.value); })
                     }
@@ -703,7 +704,11 @@ Rpd.channelrenderer('espnode/string', 'html', {
 
 });
 
-//Register all node
+
+//Sort All Node
+NodeLibrary.sort(function(a,b) {return (a.nodetype > b.nodetype) ? 1 : ((b.nodetype > a.nodetype) ? -1 : 0);} );
+
+//Register All Node
 NodeLibrary.forEach(function(element){
     Rpd.nodetype(element.nodetype, element.rpdnode)
 })

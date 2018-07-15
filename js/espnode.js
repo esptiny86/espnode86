@@ -240,6 +240,33 @@ NodeLibrary.push({
 });
 
 
+
+NodeLibrary.push({
+    nodetype: 'espnode/map',
+    nodeclass: "ModuleMap",
+    nodegenerateheader: function(node)
+    {
+        return (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "(" + node.nodeinletvalue.low[1] + "," + node.nodeinletvalue.high[1] + ")" + ";\n");
+    },
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },
+    rpdnode: {
+        title: 'Map Value',
+        inlets:  { 
+            'input': { type: 'espnode/string' } ,
+            'low': { type: 'espnode/string', default: 0, hidden: true },
+            'high': { type: 'espnode/string', default: 0, hidden: true },
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+
 NodeLibrary.push({
     nodetype: 'espnode/clockdivider',
     nodeclass: "ModuleClockDivider",
@@ -263,6 +290,24 @@ NodeLibrary.push({
         title: 'Random Clock',
         inlets:  { 
             'clock_input': { type: 'espnode/string' } ,
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+
+NodeLibrary.push({
+    nodetype: 'espnode/envelope',
+    nodeclass: "ModuleENV",
+    rpdnode: {
+        title: 'Envelope',
+        inlets:  { 
+            'frequency_input': { type: 'espnode/string' } ,
+            'slope_input': { type: 'espnode/string' } ,
+            'trigger_input': { type: 'espnode/string' } ,
         },
         outlets: { 'out':     { type: 'espnode/string' } },
         process: function(inlets) {
@@ -511,6 +556,54 @@ Rpd.noderenderer('espnode/counter', 'html', function(){
         valInput.value = inlets["target"];
     },    
 }});
+
+
+Rpd.noderenderer('espnode/map', 'html', function(){
+    var valInput;
+    return  {
+    first: function(bodyElm) {
+
+        var txt = document.createElement('span');
+        txt.innerHTML = "Low ";
+        bodyElm.appendChild(txt);
+                
+        valInput = document.createElement('input');
+        valInput.style.display = 'block';
+        valInput.style.width = "50px";
+        valInput.type = 'number';
+        valInput.min = 0;
+        valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+
+        var txt = document.createElement('span');
+        txt.innerHTML = "High ";
+        bodyElm.appendChild(txt);
+
+        valClock = document.createElement('input');
+        valClock.style.display = 'block';
+        valClock.style.width = "50px";
+        valClock.type = 'number';
+        valClock.min = 0;
+        valClock.max = 1000;
+        bodyElm.appendChild(valClock);
+
+        return {    
+                    'low':
+                    { 
+                        default: function() { valInput.value = 0; return 0; }, valueOut: Kefir.fromEvents(valInput, 'change').map(function() { return valInput.value; })
+                    },
+                    'high': {
+                        default: function() { valClock.value = 0; return 0; }, valueOut: Kefir.fromEvents(valClock, 'change').map(function() { return valClock.value; })
+                    }
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+        valInput.value = inlets["low"];
+        valClock.value = inlets["high"];
+    },    
+}});
+
 
 Rpd.channelrenderer('espnode/constant', 'html', {
     /* show: function(target, value) { }, */

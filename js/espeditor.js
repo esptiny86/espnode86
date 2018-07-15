@@ -335,20 +335,41 @@ var NodeToCpp = function() {
     var include_string = ""
     var setup_string = ""
 
+    //Generate Module Init and setup
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {
         
         var node = espNodeContainer[i];
+        var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
 
         //all except constant module
-        if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC"&& node.nodeclass !== "Param" && node.nodeclass !== "NodeList") include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+        if (_.isUndefined(node_def.nodegenerateheader))
+            if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC"&& node.nodeclass !== "Param" && node.nodeclass !== "NodeList") 
+                include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+
         // console.log(node.nodeclass);
-        for (var key in node.nodeinletvalue) {
-            // if (node.nodeclass === "ModuleConstant")
-            if (key !== "user-value" && node.nodeclass !== "DAC"  && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
-                setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key][1] + ");\n";
-        }
+        if (_.isUndefined(node_def.nodegeneratesetup))
+            for (var key in node.nodeinletvalue) {
+                if (key !== "user-value" && node.nodeclass !== "DAC"  && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
+                    setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key][1] + ");\n";
+            }
+
     }
 
+
+    //Generate Module Init and setup
+    //based on node definition
+    for (var i = 0, l = espNodeContainer.length; i < l; i++) {    
+        var node = espNodeContainer[i];
+        var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
+        if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegenerateheader))
+            include_string +=  node_def.nodegenerateheader(node);
+        if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegeneratesetup))
+            for (var key in node.nodeinletvalue)
+                setup_string +=  node_def.nodegeneratesetup(key, node);
+    }
+
+    
+    //Generate code for connected node
     for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {
         
         var conn = espNodeClassConnection[i];

@@ -213,6 +213,33 @@ NodeLibrary.push({
     }
 });
 
+
+
+NodeLibrary.push({
+    nodetype: 'espnode/counter',
+    nodeclass: "ModuleCounter",
+    nodegenerateheader: function(node)
+    {
+        return (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "(" + node.nodeinletvalue.target[1]  + ")" + ";\n");
+    },
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },
+    rpdnode: {
+        title: 'Counter Gen',
+        inlets:  { 
+            'clock_input': { type: 'espnode/string' } ,
+            'target': { type: 'espnode/string', default: 0, hidden: true },
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+
 var d3 = d3 || d3_tiny;
 var NodeList = RpdUtils.NodeList;
 var getNodeTypesByToolkit = RpdUtils.getNodeTypesByToolkit;
@@ -402,6 +429,38 @@ Rpd.noderenderer('espnode/clock', 'html', function(){
     always: function(bodyElm, inlets, outlets) {
         valInput.value = inlets["bpm"];
         valClock.value = inlets["division"];
+    },    
+}});
+
+
+
+Rpd.noderenderer('espnode/counter', 'html', function(){
+    var valInput;
+    return  {
+    first: function(bodyElm) {
+
+        var txt = document.createElement('span');
+        txt.innerHTML = "Target ";
+        bodyElm.appendChild(txt);
+                
+        valInput = document.createElement('input');
+        // valInput.style.display = 'block';
+        valInput.style.width = "50px";
+        valInput.type = 'number';
+        valInput.min = 0;
+        valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+
+        return {    
+                    'target':
+                    { 
+                        default: function() { valInput.value = 0; return 0; }, valueOut: Kefir.fromEvents(valInput, 'change').map(function() { return valInput.value; })
+                    }
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+        valInput.value = inlets["target"];
     },    
 }});
 

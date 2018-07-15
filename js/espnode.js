@@ -192,6 +192,14 @@ NodeLibrary.push({
 NodeLibrary.push({
     nodetype: 'espnode/clock',
     nodeclass: "ModuleClock",
+    nodegenerateheader: function(node)
+    {
+        return (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "(" + node.nodeinletvalue.bpm[1]  + ","+ node.nodeinletvalue.division[1]  + ")" + ";\n");
+    },
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },
     rpdnode: {
         title: 'Clock Gen',
         inlets:  { 
@@ -353,24 +361,36 @@ Rpd.noderenderer('espnode/constant', 'html', function(){
 
 Rpd.noderenderer('espnode/clock', 'html', function(){
     var valInput;
-    
     return  {
     first: function(bodyElm) {
+
+        var txt = document.createElement('span');
+        txt.innerHTML = "Clk ";
+        bodyElm.appendChild(txt);
+                
         valInput = document.createElement('input');
-        valInput.style.display = 'block';
+        // valInput.style.display = 'block';
+        valInput.style.width = "50px";
         valInput.type = 'number';
         valInput.min = 0;
         valInput.max = 1000;
         bodyElm.appendChild(valInput);
 
+
+        var txt = document.createElement('span');
+        txt.innerHTML = "Div ";
+        bodyElm.appendChild(txt);
+
         valClock = document.createElement('input');
-        valClock.style.display = 'block';
+        // valClock.style.display = 'block';
+        valClock.style.width = "50px";
         valClock.type = 'number';
         valClock.min = 0;
         valClock.max = 1000;
         bodyElm.appendChild(valClock);
 
-        return { 'bpm':
+        return {    
+                    'bpm':
                     { 
                         default: function() { valInput.value = 0; return 0; }, valueOut: Kefir.fromEvents(valInput, 'change').map(function() { return valInput.value; })
                     },
@@ -380,10 +400,8 @@ Rpd.noderenderer('espnode/clock', 'html', function(){
                };
     },
     always: function(bodyElm, inlets, outlets) {
-        // console.log(inlets)
         valInput.value = inlets["bpm"];
         valClock.value = inlets["division"];
-
     },    
 }});
 

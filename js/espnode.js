@@ -240,6 +240,30 @@ NodeLibrary.push({
 });
 
 
+NodeLibrary.push({
+    nodetype: 'espnode/comment',
+    nodeclass: "COMMENT",
+    nodegenerateheader: function(node)
+    {
+        return "";
+    },
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },
+    rpdnode: {
+        title: 'Comment',
+        inlets:  { 
+            'comment': { type: 'espnode/string', default: 0, hidden: true },
+        },
+        outlets: { 
+        },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
 
 NodeLibrary.push({
     nodetype: 'espnode/map',
@@ -478,6 +502,37 @@ Rpd.noderenderer('espnode/constant', 'html', function(){
     },    
 }});
 
+
+Rpd.noderenderer('espnode/comment', 'html', function(){
+    var valInput;
+    
+    return  {
+    first: function(bodyElm) {
+
+        valInput = document.createElement('textarea');
+        valInput.style.width = '150px';
+        valInput.style.height = '100px';
+        valInput.style.color = "#000";
+        valInput.style.background = "#e7dbd9";
+        valInput.style.fontSize = "1.25em";
+        valInput.style.padding = "1em";
+
+        // valInput.type = 'number';
+        // valInput.min = 0;
+        // valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+          
+        return { 
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+
+
+        // console.log(inlets)
+        // valInput.value = inlets["user-value"];
+    },    
+}});
 
 Rpd.noderenderer('espnode/clock', 'html', function(){
     var valInput;

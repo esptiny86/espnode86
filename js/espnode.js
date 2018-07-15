@@ -523,15 +523,17 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
         bodyElm.appendChild(valInput);
 
           
-        return { 
+        return { 'comment':
+                    { default: function() { valInput.value = 0; return 0; },
+                      valueOut: Kefir.fromEvents(valInput, 'change')
+                                     .map(function() { return encodeURIComponent(valInput.value); })
+                    }
                };
     },
     always: function(bodyElm, inlets, outlets) {
-
-
         // console.log(inlets)
-        // valInput.value = inlets["user-value"];
-    },    
+        valInput.value = decodeURIComponent(inlets["comment"]);
+    },   
 }});
 
 Rpd.noderenderer('espnode/clock', 'html', function(){

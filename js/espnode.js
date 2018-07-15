@@ -78,6 +78,20 @@ NodeLibrary.push({
     }
 });
 
+NodeLibrary.push({
+    nodetype: 'espnode/bitcrusher',
+    nodeclass: "ModuleBitReducer",    
+    rpdnode : {
+        title: "Bit Crusher",    
+        inlets: { 
+            'audio_input': { type: 'espnode/string' } ,
+            'bit_input': { type: 'espnode/string' } 
+        },
+        outlets: { 
+            'Out': { type: 'espnode/string' } 
+        }
+    }
+});
 
 NodeLibrary.push({
     nodetype: 'espnode/multiplexer',
@@ -114,20 +128,35 @@ NodeLibrary.push({
     }
 });
 
+NodeLibrary.push({
+    nodetype: 'espnode/vca',
+    nodeclass: "ModuleVCA",
+    rpdnode : {
+        title: "VCA",
+        inlets: { 
+            'audio_input': { type: 'espnode/string' } ,
+            'cv_input': { type: 'espnode/string' } 
 
+        },
+        outlets: { 
+            'out': { type: 'espnode/string' } 
+        }
+    }
+});
 
 NodeLibrary.push({
-    nodetype: 'espnode/delay',
-    nodeclass: "ModuleDelay",
+    nodetype: 'espnode/reverb',
+    nodeclass: "ModuleReverb",
     rpdnode : {
-        title: "Audio Delay",
+        title: "Reverb",
         inlets: { 
-            'audio_input': { type: 'espnode/string' }, 
-            'mix_input': { type: 'espnode/string' }, 
-            'feedback_input': { type: 'espnode/string' }, 
-            'length_input': { type: 'espnode/string' }, 
+            'audio_input': { type: 'espnode/string' } ,
+            'mix_input': { type: 'espnode/string' },
+            'feedback_input': { type: 'espnode/string' } 
         },
-        outlets: { 'out': { type: 'espnode/string' } }
+        outlets: { 
+            'out': { type: 'espnode/string' } 
+        }
     }
 });
 

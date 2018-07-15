@@ -54,6 +54,7 @@
 
         <!-- underscore -->
         <script src="vendor/underscore.js"></script>
+        <script src="vendor/hotkeys.min.js"></script>
 
         <!-- Espnode custom -->
         <script src="js/espnode.js"></script>
@@ -68,7 +69,7 @@
     <body id="main">
         
         <div class="egolab" style="line-height: 1.5em; font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">
-            Espnode86 : Audio Design Tools For Espsynth86<br> Press "S" to Save Code, "O" To Load Code, "C" to Copy Code <br> <span style="line-height: 1.5em; font-size:0.8em">Code by Manticore@EGOLAB powered by RPD Framework 2.1.1</span>
+            Espnode86 : Audio Design Tools For Espsynth86<br> Press CTRL+L to Save Code, CTRL+O To Load Code, CTRL+K to Copy Code <br> <span style="line-height: 1.5em; font-size:0.8em">Code by Manticore@EGOLAB powered by RPD Framework 2.1.1</span>
         </div>
 
         <script>
@@ -97,16 +98,14 @@
             }
             });
 
-            document.onkeyup = function(e) {
-            if (e.which == 79) { //O
-                LoadNodeCode();
-            } else if (e.which == 67) { //C
-                showNodeCode();
-            } else if (e.which == 83) { //D
-                NodeToCPPDownload();
+
+        hotkeys('ctrl+o,ctrl+k,ctrl+l', function(event,handler) {
+            switch(handler.key){
+                case "ctrl+o":LoadNodeCode();break;
+                case "ctrl+k":showNodeCode();break;
+                case "ctrl+l":NodeToCPPDownload();break;
             }
-        
-        }
+        });
             
 
             var showNodeCode = function()

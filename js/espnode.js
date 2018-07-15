@@ -241,6 +241,37 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
+    nodetype: 'espnode/clockdivider',
+    nodeclass: "ModuleClockDivider",
+    rpdnode: {
+        title: 'Clock Divider',
+        inlets:  { 
+            'clock_input': { type: 'espnode/string' } ,
+            'division_input': { type: 'espnode/string' }
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+NodeLibrary.push({
+    nodetype: 'espnode/clockrandom',
+    nodeclass: "ModuleClockedRandom",
+    rpdnode: {
+        title: 'Random Clock',
+        inlets:  { 
+            'clock_input': { type: 'espnode/string' } ,
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+NodeLibrary.push({
     nodetype: 'espnode/arpeggio',
     nodeclass: "ModuleArpeggio",
     rpdnode: {

@@ -240,6 +240,23 @@ NodeLibrary.push({
 });
 
 
+NodeLibrary.push({
+    nodetype: 'espnode/arpeggio',
+    nodeclass: "ModuleArpeggio",
+    rpdnode: {
+        title: 'Arpeggio',
+        inlets:  { 
+            'root_note_input': { type: 'espnode/string' } ,
+            'pattern_input': { type: 'espnode/string' } ,
+            'clock_input': { type: 'espnode/string' } 
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
 var d3 = d3 || d3_tiny;
 var NodeList = RpdUtils.NodeList;
 var getNodeTypesByToolkit = RpdUtils.getNodeTypesByToolkit;

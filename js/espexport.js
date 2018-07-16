@@ -217,7 +217,7 @@
               // outlets[command[1]] = nodes[command[0]].addOutlet(command[2], command[3], decodeURIComponent(command[4]));
           },
           'node/update-inlet': function(command) {
-              inlets[command[1]].receive(command[3])             
+              inlets[command[1]].receive(decodeURIComponent(command[3]))             
           },
           'node/update-outlet': function(command) {
 

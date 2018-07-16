@@ -452,11 +452,11 @@ var NodeToPlainNetwork = function()
         var node = espNodeContainer[i];                     
         for (var key in node.nodeoutletvalue) {
             var nodeoutlet = node.nodeoutletvalue[key];
-            plain_network = plain_network + "node/update-outlet " + node.nodeid + " " + nodeoutlet[0] + " "   + key + " " + nodeoutlet[1] + "\n";
+            plain_network = plain_network + "node/update-outlet " + node.nodeid + " " + nodeoutlet[0] + " "   + key + " " + encodeURIComponent(nodeoutlet[1]) + "\n";
         }
         for (var key in node.nodeinletvalue) {
             var nodeinlet = node.nodeinletvalue[key];
-            plain_network = plain_network + "node/update-inlet " + node.nodeid + " " + nodeinlet[0] + " "   + key + " " + nodeinlet[1] + "\n";
+            plain_network = plain_network + "node/update-inlet " + node.nodeid + " " + nodeinlet[0] + " "   + key + " " + encodeURIComponent(nodeinlet[1]) + "\n";
         }
     }
 

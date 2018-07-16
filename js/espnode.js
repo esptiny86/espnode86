@@ -160,6 +160,51 @@ NodeLibrary.push({
     }
 });
 
+
+NodeLibrary.push({
+    nodetype: 'espnode/sampleplayer',
+    nodeclass: "ModuleSamplePlayer",
+    rpdnode : {
+        title: "Sample Player",
+        inlets: { 
+            'trigger_input': { type: 'espnode/string' },
+            'sample_select': { type: 'espnode/string' }
+        },
+        outlets: { 
+            'out': { type: 'espnode/string' } 
+        }
+    }
+});
+
+
+
+NodeLibrary.push({
+    nodetype: 'espnode/tinysynth',
+    nodegenerateheader: function(node)
+    {
+        return (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "(" +  '"'  + decodeURIComponent(node.nodeinletvalue.ample[1]) + '"' + ")" + ";\n");
+    },    
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },    
+    nodeclass: "ModuleTinySynth",
+    rpdnode: {
+        title: 'Tiny Synth Player',
+        inlets:  { 
+            'trigger_input': { type: 'espnode/string', default: 0, hidden: false },
+            'ample': { type: 'espnode/string', default: 0, hidden: true },
+        },
+        outlets: { 
+            'out': { type: 'espnode/string', default: 0, hidden: false }
+        },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+
 NodeLibrary.push({
     nodetype: 'espnode/dac',
     nodeclass: "DAC",
@@ -536,6 +581,43 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
         valInput.value = decodeURIComponent(inlets["comment"]);
     },   
 }});
+
+
+Rpd.noderenderer('espnode/tinysynth', 'html', function(){
+    var valInput;
+    
+    return  {
+    first: function(bodyElm) {
+
+        valInput = document.createElement('textarea');
+        valInput.style.width = '150px';
+        valInput.style.height = '100px';
+        valInput.style.color = "#000";
+        valInput.style.background = "#CCC";
+        valInput.style.fontSize = "1.25em";
+        valInput.style.padding = "1em";
+        valInput.style.fontFamily = "'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;";
+
+        // valInput.type = 'number';
+        // valInput.min = 0;
+        // valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+          
+        return { 'ample':
+                    { default: function() { valInput.value = 0; return "type comment here.."; },
+                      valueOut: Kefir.fromEvents(valInput, 'change')
+                                     .map(function() { return encodeURIComponent(valInput.value); })
+                    }
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+        // console.log(inlets)
+        valInput.value = decodeURIComponent(inlets["ample"]);
+    },   
+}});
+
+
 
 Rpd.noderenderer('espnode/clock', 'html', function(){
     var valInput;

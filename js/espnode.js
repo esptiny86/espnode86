@@ -590,7 +590,7 @@ Rpd.noderenderer('espnode/tinysynth', 'html', function(){
     first: function(bodyElm) {
 
         valInput = document.createElement('textarea');
-        valInput.style.width = '150px';
+        valInput.style.width = '350px';
         valInput.style.height = '100px';
         valInput.style.color = "#000";
         valInput.style.background = "#CCC";
@@ -605,7 +605,7 @@ Rpd.noderenderer('espnode/tinysynth', 'html', function(){
 
           
         return { 'ample':
-                    { default: function() { valInput.value = 0; return "type comment here.."; },
+                    { default: function() { valInput.value = 0; return "C(-1:C)Fe 2,dE | 4,F(-1:D) 2,eF 4,A(-1:G)g | 2,f(-1:F)eF(-1:E)G 4,f(-1:D)e(-1:C) | 2,d(-2:G)Edc 4,b(-2:G)G | c(-1:C)Fe 2,dE | 4,F(-1:D) 2,eF 4,A(-1:G)g | 2,A(-1:F)gA(-1:E)Cb(-1:G)gB(-1:B)D | 4,c(-1:C)g 8,C ^(^^)"; },
                       valueOut: Kefir.fromEvents(valInput, 'change')
                                      .map(function() { return encodeURIComponent(valInput.value); })
                     }

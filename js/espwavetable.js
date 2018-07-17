@@ -312,7 +312,7 @@ public:
 private:
     bool clocked;
     uint32_t counter;
-    sample_data sample[<<WAVETABLE_LENGTH>>] =
+    sample_data sample[<<WAVETABLE_LENGTH_ARR>>] =
     {
 <<SAMPLE_STRUCT>>
     };
@@ -358,6 +358,8 @@ private:
     
     var final_txt = class_template.replaceAll('<<TXT_WAV>>', text);    
     final_txt =  final_txt.replaceAll('<<WAVETABLE_LENGTH>>', wavetable.length-1)
+    final_txt =  final_txt.replaceAll('<<WAVETABLE_LENGTH_ARR>>', wavetable.length)
+
     final_txt =  final_txt.replaceAll('<<SAMPLE_STRUCT>>', sample_struct)
     final_txt = final_txt.replaceAll('<<TXT_SAMPLER_NAME>>', sample_name)
 	return final_txt

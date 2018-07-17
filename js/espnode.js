@@ -310,6 +310,31 @@ NodeLibrary.push({
 });
 
 
+
+NodeLibrary.push({
+    nodetype: 'espnode/samplepack',
+    nodeclass: "WAVETABLE",
+    nodegenerateheader: function(node)
+    {
+        return "";
+    },
+    nodegeneratesetup: function(key, node)
+    {
+        return "";
+    },
+    rpdnode: {
+        title: 'Sample Pack Editor',
+        inlets:  { 
+            'comment': { type: 'espnode/string', default: 0, hidden: true },
+        },
+        outlets: { 
+        },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
 NodeLibrary.push({
     nodetype: 'espnode/map',
     nodeclass: "ModuleMap",
@@ -572,15 +597,16 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
         return { 'comment':
                     { default: function() { valInput.value = 0; return "type comment here.."; },
                       valueOut: Kefir.fromEvents(valInput, 'change')
-                                     .map(function() { return encodeURIComponent(valInput.value); })
+                                     .map(function() { return (valInput.value); })
                     }
                };
     },
     always: function(bodyElm, inlets, outlets) {
         // console.log(inlets)
-        valInput.value = decodeURIComponent(inlets["comment"]);
+        valInput.value = (inlets["comment"]);
     },   
 }});
+
 
 
 Rpd.noderenderer('espnode/tinysynth', 'html', function(){

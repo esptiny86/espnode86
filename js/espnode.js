@@ -316,7 +316,6 @@ NodeLibrary.push({
     nodegenerateheader: function(node)
     {
         var node_class = node.nodeclass + node.nodeinletvalue.sample[1];
-        node.nodevariable = lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1];
         return (node_class + " *" + lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + " = new " + node_class + "();\n");
     },
     nodegeneratesetup: function(key,node)

@@ -132,7 +132,8 @@ function audioBufferToArray(audioBuffer, normalize, sampleRate)
 
 function newButton(text, cb)
 {
-	var b = document.createElement("button");
+    var b = document.createElement("button");
+    b.className = "btn_wave"
 	b.innerHTML = text;
 	b.onclick = cb;
 	return b;
@@ -191,8 +192,8 @@ function addListItem(p_id,i, id, name, soundsDiv)
 	soundDiv.appendChild(newButton("&#10008;", function(){ deleteSound(p_id,id,soundsDiv)}));
 	soundDiv.appendChild(newButton("&#x2B07;", function(){ downSound(p_id,id,soundsDiv); }));
 	soundDiv.appendChild(newButton("&#x2B06;", function(){ upSound(p_id,id,soundsDiv); }));
-	soundDiv.appendChild(newButton("&#x2BC0;", function(){ stopSound(p_id,id,soundsDiv); }));
-	soundDiv.appendChild(newButton("&#x2BC8;", function(){ playSound(p_id,id,soundsDiv); }));
+	soundDiv.appendChild(newButton("&#10074;", function(){ stopSound(p_id,id,soundsDiv); }));
+	soundDiv.appendChild(newButton("&#9658;", function(){ playSound(p_id,id,soundsDiv); }));
 	var span = document.createElement("span");
 	span.innerHTML = name;
     soundDiv.appendChild(span);    
@@ -306,7 +307,25 @@ function saveHeader(p_id)
 	for(var i = 0; i < project[p_id].wavetable.length; i++)
         project[p_id].wavetable[i].array = audioBufferToArray(project[p_id].wavetable[i].buffer, project[p_id].normalize, project[p_id].sampleRate);
     
-    var file_blob = new Blob([wavetableToHeader(project[p_id].name, project[p_id].sampleRate)], {type: "text/plain"});
+    // var file_blob = new Blob([wavetableToHeader(project[p_id].name, project[p_id].sampleRate)], {type: "text/plain"});
+
+    var saveData = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, fileName) {
+            var json = (data),
+                blob = new Blob([json], {type: "text/plain"}),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+    
+    
+    saveData(wavetableToHeader(p_id, project[p_id].name, project[p_id].sampleRate), "patch.h"); 
 
 	// file.href = URL.createObjectURL(new Blob([wavetableToHeader(project.name, project.sampleRate)], {type: "text/plain"}));
 	// meta.href = URL.createObjectURL(new Blob([getMeta()], {type: "text/plain"}));
@@ -360,6 +379,7 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         valInput.style.padding = "1em";
         valInput.style.fontFamily = "'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;";
         valInput.innerHTML = "Open"
+        valInput.className = "btn_wave"
         // valInput.type = 'number';
         // valInput.min = 0;
         // valInput.max = 1000;
@@ -370,15 +390,21 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         valName.value = "SAMPLE_NAME"
 
         valBtn = document.createElement('button');
+        valBtn.className = "btn_wave"
+
         valBtn.innerHTML = "Save to Patch"
 
         valAdd = document.createElement('button');
         valAdd.innerHTML = "Add"
+        valAdd.className = "btn_wave"
+
         valAdd.onclick = function(){valInput.click()}
 
         valDownload = document.createElement('button');
         valDownload.innerHTML = "Download"
-        valDownload.onclick = function(){}
+        valDownload.className = "btn_wave"
+
+        valDownload.onclick = function(){ saveHeader(project_id) }
 
 
         bodyElm.appendChild(valName);

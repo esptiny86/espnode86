@@ -262,6 +262,8 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
     var valBtn;
     var valName;
     var valAdd;
+    var valDownload;
+
     var project_id;
     
     return  {
@@ -281,7 +283,7 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
 
         // <input id="addsounds" type="file" onchange="addFiles(event)" accept="audio/*" multiple hidden>
         divSounds = document.createElement('div');
-        
+        divSounds.style.width = "200px";
 
         valInput = document.createElement('input');
         // valInput.style.width = '150px';
@@ -309,18 +311,29 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         valName.value = "SAMPLE_NAME"
 
         valBtn = document.createElement('button');
-        valBtn.innerHTML = "Save to patch"
+        valBtn.innerHTML = "Save to Patch"
 
         valAdd = document.createElement('button');
-        valAdd.innerHTML = "Add File"
+        valAdd.innerHTML = "Add"
         valAdd.onclick = function(){valInput.click()}
 
+        valDownload = document.createElement('button');
+        valDownload.innerHTML = "Download"
+        valDownload.onclick = function(){}
+
+
         bodyElm.appendChild(valName);
-        bodyElm.appendChild(valBtn);
         bodyElm.appendChild(valAdd);
+        bodyElm.appendChild(valBtn);
+        bodyElm.appendChild(valDownload);
 
           
-        return { 'comment':
+        return { 
+            'sample_name':
+            { 
+                default: function() { valName.value = 0; return 0; }, valueOut: Kefir.fromEvents(valName, 'change').map(function() { return valName.value; })
+            },            
+            'comment':
                     { default: function() 
                         { return ""; 
                     },
@@ -334,12 +347,10 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
     always: function(bodyElm, inlets, outlets) {
 
         var json_string = inlets["comment"];
-        console.log(project_id);
-
-        if(json_string.length > 1)
+        if( !_.isUndefined(json_string) && json_string.length > 1)
             loadProject(project_id, inlets["comment"], divSounds)
 
         // console.log(inlets)
-        // valInput.value = (inlets["comment"]);
+        valName.value = (inlets["sample_name"]);
     },   
 }});

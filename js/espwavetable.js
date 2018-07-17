@@ -255,6 +255,65 @@ for(var i = 0; i < project[p_id].wavetable.length; i++)
 
 }
 
+function wavetableToHeader(p_id, name, sampleRate)
+{
+	var wavetable = project[p_id].wavetable;
+	var offsets = [0];
+	var text = "";
+	for(var i = 0; i < wavetable.length; i++)
+	{
+		var name = wavetable[i].name.replace(".wav","");
+		text += "#define " + name + "LEN " + wavetable[i].array.length +  "UL\r\n"
+	}
+	for(var i = 0; i < wavetable.length; i++)
+	{
+		// offsets.push(offsets[i] + wavetable[i].array.length);
+		var name = wavetable[i].name.replace(".wav","");
+		text += "uint32_t " + name + "CNT;\r\n"
+	}
+	// text += "const int " + name + "Offsets[] = {"
+	// for(var i = 0; i < offsets.length; i++)
+	// 	text += offsets[i] + ", ";
+	// text += "};\r\n";
+	for(var i = 0; i < wavetable.length; i++)
+	{
+		var b = new Int16Array(wavetable[i].array.length);
+		for(var j = 0; j < wavetable[i].array.length; j++)
+			b[j] = (Math.round(wavetable[i].array[j] * 0x8000));
+		var name = wavetable[i].name.replace(".wav","");
+		text += "const uint16_t " + name + "["+b.length+"] PROGMEM = {"		
+		for(var k = 0; k < b.length; k++)
+		{
+			if((k & 63) == 0) text += "\r\n";
+			text += b[k] + ", ";
+		}
+		text += "};\r\n";					
+	}
+	return text;
+}
+
+
+function saveHeader(p_id)
+{	
+	// document.getElementById("filearea").innerHTML = "";
+	// var fileArea = document.getElementById("filearea");
+	// var file = document.createElement("a");
+	// var meta = document.createElement("a");
+	// meta.className = file.className = "block file";
+	// file.download = file.innerHTML = project.name + ".h";
+    // meta.download = meta.innerHTML = project.name + ".txt";
+    
+	for(var i = 0; i < project[p_id].wavetable.length; i++)
+        project[p_id].wavetable[i].array = audioBufferToArray(project[p_id].wavetable[i].buffer, project[p_id].normalize, project[p_id].sampleRate);
+    
+    var file_blob = new Blob([wavetableToHeader(project[p_id].name, project[p_id].sampleRate)], {type: "text/plain"});
+
+	// file.href = URL.createObjectURL(new Blob([wavetableToHeader(project.name, project.sampleRate)], {type: "text/plain"}));
+	// meta.href = URL.createObjectURL(new Blob([getMeta()], {type: "text/plain"}));
+	// fileArea.appendChild(file);
+	// fileArea.appendChild(meta);
+	// document.getElementById("files").className = "menu";
+}
 
 Rpd.noderenderer('espnode/samplepack', 'html', function(){
     var valInput;
@@ -331,7 +390,7 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         return { 
             'sample_name':
             { 
-                default: function() { valName.value = 0; return 0; }, valueOut: Kefir.fromEvents(valName, 'change').map(function() { return valName.value; })
+                default: function() { return "SAMPLE_NAME_" + project_id; }, valueOut: Kefir.fromEvents(valName, 'change').map(function() { return valName.value; })
             },            
             'comment':
                     { default: function() 

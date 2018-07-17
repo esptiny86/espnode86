@@ -310,6 +310,37 @@ NodeLibrary.push({
 });
 
 
+NodeLibrary.push({
+    nodetype: 'espnode/samplepackplay',
+    nodeclass: "ModuleSamplePack",
+    nodegenerateheader: function(node)
+    {
+        var node_class = node.nodeclass + node.nodeinletvalue.sample[1];
+        node.nodevariable = lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1];
+        return (node_class + " *" + lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + " = new " + node_class + "();\n");
+    },
+    nodegeneratesetup: function(key,node)
+    {
+        return "";
+    },
+    rpdnode: {
+        title: 'Sample Pack Player',
+        inlets:  { 
+            'sample': { type: 'espnode/string', hidden: true },
+            'trigger_input': { type: 'espnode/string' },
+            'sample_select': { type: 'espnode/string'},
+
+        },
+        outlets: { 
+            'out': { type: 'espnode/string'},
+
+        },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
 
 NodeLibrary.push({
     nodetype: 'espnode/samplepack',
@@ -373,6 +404,26 @@ NodeLibrary.push({
         inlets:  { 
             'clock_input': { type: 'espnode/string' } ,
             'division_input': { type: 'espnode/string' }
+        },
+        outlets: { 'out':     { type: 'espnode/string' } },
+        process: function(inlets) {
+            // return { 'number': inlets['user-value'] };
+        }
+    }
+});
+
+
+
+NodeLibrary.push({
+    nodetype: 'espnode/seqeuclidean',
+    nodeclass: "ModuleEuclideanSeq",
+    rpdnode: {
+        title: 'Euclidean Sequencer',
+        inlets:  { 
+            'clock_input': { type: 'espnode/string' } ,
+            'step_input': { type: 'espnode/string' },
+            'beat_input': { type: 'espnode/string' },            
+            'offset_input': { type: 'espnode/string' }            
         },
         outlets: { 'out':     { type: 'espnode/string' } },
         process: function(inlets) {
@@ -484,11 +535,6 @@ Rpd.noderenderer('espnode/nodelist', 'html', {
                   .call(function(dl) {
                       Object.keys(nodeTypesByToolkit).forEach(function(toolkit) {
 
-                          dl.append('dt')
-                            .call(function(dt) {
-                                if (toolkitIcons[toolkit]) dt.append('span').attr('class', 'rpd-nodelist-toolkit-icon').text(toolkitIcons[toolkit]);
-                                dt.append('span').attr('class', 'rpd-nodelist-toolkit-name').text(toolkit)
-                            });
 
                           dl.append('dd')
                             .append('ul')
@@ -611,6 +657,39 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
     },   
 }});
 
+Rpd.noderenderer('espnode/samplepackplay', 'html', function(){
+    var valInput;
+    
+    return  {
+    first: function(bodyElm) {
+
+        valInput = document.createElement('input');
+        valInput.style.width = '70px';
+        // valInput.style.height = '100px';
+        valInput.style.color = "#000";
+        valInput.style.background = "#CCC";
+        // valInput.style.fontSize = "1.25em";
+        // valInput.style.padding = "1em";
+        valInput.style.fontFamily = "'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;";
+
+        // valInput.type = 'number';
+        // valInput.min = 0;
+        // valInput.max = 1000;
+        bodyElm.appendChild(valInput);
+
+          
+        return { 'sample':
+                    { default: function() {  return "Sample1"; },
+                      valueOut: Kefir.fromEvents(valInput, 'change')
+                                     .map(function() { return (valInput.value); })
+                    }
+               };
+    },
+    always: function(bodyElm, inlets, outlets) {
+        // console.log(inlets)
+        valInput.value = (inlets["sample"]);
+    },   
+}});
 
 
 Rpd.noderenderer('espnode/tinysynth', 'html', function(){
@@ -625,7 +704,7 @@ Rpd.noderenderer('espnode/tinysynth', 'html', function(){
         valInput.style.color = "#000";
         valInput.style.background = "#CCC";
         valInput.style.fontSize = "1.25em";
-        valInput.style.padding = "1em";
+        valInput.style.padding = "0.5em";
         valInput.style.fontFamily = "'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;";
 
         // valInput.type = 'number';

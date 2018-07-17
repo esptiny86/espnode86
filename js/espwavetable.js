@@ -10,6 +10,10 @@ var project = {};
 // 	normalize: true,
 // 	wavetable: []
 // };
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
 
 function objFromId(p_id,id)
 {
@@ -256,10 +260,9 @@ for(var i = 0; i < project[p_id].wavetable.length; i++)
 
 }
 
-function wavetableToHeader(p_id, name, sampleRate)
+function wavetableToHeader(p_id, name, sampleRate, sample_name)
 {
 var class_template = `
-
 #ifndef STRUCT_SAMPLER
 struct sample_data {
     const uint16_t * sample_loc;
@@ -267,21 +270,21 @@ struct sample_data {
 };
 #endif
 
-#ifndef ModuleSamplePlayer_h
-#define ModuleSamplePlayer_h
+#ifndef ModuleSample<<TXT_SAMPLER_NAME>>_h
+#define ModuleSample<<TXT_SAMPLER_NAME>>_h
 
 #include "Module.h"
 #include "drum_sampler.h"
 
 <<TXT_WAV>>
 
-class ModuleSamplePlayer : public Module
+class ModuleSample<<TXT_SAMPLER_NAME>> : public Module
 {
 public:
     Module *trigger_input;
     Module *sample_select;
 
-    ModuleSamplePlayer()
+    ModuleSample<<TXT_SAMPLER_NAME>>()
     {
         this->counter = 0;  
         this->clocked = false;
@@ -292,7 +295,7 @@ public:
     uint16_t compute()
     {
         uint16_t clock = this->readInput(trigger_input);
-        uint16_t samp_sel = constrain(this->readInput(sample_select,0,10),0,10) ;
+        uint16_t samp_sel = constrain(this->readInput(sample_select,0,<<WAVETABLE_LENGTH>>),0,<<WAVETABLE_LENGTH>>) ;
         if (clocked == false && clock >= MAX_CV)
         {
             clocked = true;
@@ -309,7 +312,7 @@ public:
 private:
     bool clocked;
     uint32_t counter;
-    sample_data sample[11] =
+    sample_data sample[<<WAVETABLE_LENGTH>>] =
     {
 <<SAMPLE_STRUCT>>
     };
@@ -331,8 +334,8 @@ private:
 	for(var i = 0; i < wavetable.length; i++)
 	{
 		// offsets.push(offsets[i] + wavetable[i].array.length);
-		var name = wavetable[i].name.replace(".wav","");
-		text += "uint32_t " + name + "CNT;\r\n"
+		// var name = wavetable[i].name.replace(".wav","");
+		// text += "uint32_t " + name + "CNT;\r\n"
 	}
 	// text += "const int " + name + "Offsets[] = {"
 	// for(var i = 0; i < offsets.length; i++)
@@ -353,13 +356,15 @@ private:
 		text += "};\r\n";					
     }
     
-    var final_txt = class_template.replace('<<TXT_WAV>>', text);
-    final_txt =  final_txt.replace('<<SAMPLE_STRUCT>>', sample_struct)
+    var final_txt = class_template.replaceAll('<<TXT_WAV>>', text);    
+    final_txt =  final_txt.replaceAll('<<WAVETABLE_LENGTH>>', wavetable.length-1)
+    final_txt =  final_txt.replaceAll('<<SAMPLE_STRUCT>>', sample_struct)
+    final_txt = final_txt.replaceAll('<<TXT_SAMPLER_NAME>>', sample_name)
 	return final_txt
 }
 
 
-function saveHeader(p_id)
+function saveHeader(p_id, sample_name)
 {	
 	// document.getElementById("filearea").innerHTML = "";
 	// var fileArea = document.getElementById("filearea");
@@ -368,6 +373,9 @@ function saveHeader(p_id)
 	// meta.className = file.className = "block file";
 	// file.download = file.innerHTML = project.name + ".h";
     // meta.download = meta.innerHTML = project.name + ".txt";
+    
+    if(project[p_id].wavetable.length == 0)
+        return;
     
 	for(var i = 0; i < project[p_id].wavetable.length; i++)
         project[p_id].wavetable[i].array = audioBufferToArray(project[p_id].wavetable[i].buffer, project[p_id].normalize, project[p_id].sampleRate);
@@ -390,7 +398,7 @@ function saveHeader(p_id)
     }());
     
     
-    saveData(wavetableToHeader(p_id, project[p_id].name, project[p_id].sampleRate), "patch.h"); 
+    saveData(wavetableToHeader(p_id, project[p_id].name, project[p_id].sampleRate, sample_name), sample_name + ".h"); 
 
 	// file.href = URL.createObjectURL(new Blob([wavetableToHeader(project.name, project.sampleRate)], {type: "text/plain"}));
 	// meta.href = URL.createObjectURL(new Blob([getMeta()], {type: "text/plain"}));
@@ -469,7 +477,7 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         valDownload.innerHTML = "Download"
         valDownload.className = "btn_wave"
 
-        valDownload.onclick = function(){ saveHeader(project_id) }
+        valDownload.onclick = function(){ saveHeader(project_id, valName.value) }
 
 
         bodyElm.appendChild(valName);
@@ -481,7 +489,7 @@ Rpd.noderenderer('espnode/samplepack', 'html', function(){
         return { 
             'sample_name':
             { 
-                default: function() { return "SAMPLE_NAME_" + project_id; }, valueOut: Kefir.fromEvents(valName, 'change').map(function() { return valName.value; })
+                default: function() { return "Sample" + project_id; }, valueOut: Kefir.fromEvents(valName, 'change').map(function() { return valName.value; })
             },            
             'comment':
                     { default: function() 

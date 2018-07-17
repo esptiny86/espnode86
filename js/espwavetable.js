@@ -258,14 +258,76 @@ for(var i = 0; i < project[p_id].wavetable.length; i++)
 
 function wavetableToHeader(p_id, name, sampleRate)
 {
+var class_template = `
+
+#ifndef STRUCT_SAMPLER
+struct sample_data {
+    const uint16_t * sample_loc;
+    unsigned long length;
+};
+#endif
+
+#ifndef ModuleSamplePlayer_h
+#define ModuleSamplePlayer_h
+
+#include "Module.h"
+#include "drum_sampler.h"
+
+<<TXT_WAV>>
+
+class ModuleSamplePlayer : public Module
+{
+public:
+    Module *trigger_input;
+    Module *sample_select;
+
+    ModuleSamplePlayer()
+    {
+        this->counter = 0;  
+        this->clocked = false;
+        this->trigger_input = NULL;
+        this->sample_select = NULL;
+    }
+
+    uint16_t compute()
+    {
+        uint16_t clock = this->readInput(trigger_input);
+        uint16_t samp_sel = constrain(this->readInput(sample_select,0,10),0,10) ;
+        if (clocked == false && clock >= MAX_CV)
+        {
+            clocked = true;
+            this->counter = 0;
+        }
+        if (clocked == true && clock < MAX_CV)
+            clocked = false;
+
+        if (this->counter<this->sample[samp_sel].length)
+            return (pgm_read_word_near(this->sample[samp_sel].sample_loc + this->counter++)^32768);
+        else
+            return(0x8000);
+    }
+private:
+    bool clocked;
+    uint32_t counter;
+    sample_data sample[11] =
+    {
+<<SAMPLE_STRUCT>>
+    };
+};
+#endif
+`
 	var wavetable = project[p_id].wavetable;
 	var offsets = [0];
-	var text = "";
+    var text = "";
+    var sample_struct = "";
+    
 	for(var i = 0; i < wavetable.length; i++)
 	{
 		var name = wavetable[i].name.replace(".wav","");
-		text += "#define " + name + "LEN " + wavetable[i].array.length +  "UL\r\n"
-	}
+        text += "#define " + name + "LEN " + wavetable[i].array.length +  "UL\r\n"
+        sample_struct += "\t\t{" + name + "," + name + "LEN" + "}" + ",\n";        
+    }
+    
 	for(var i = 0; i < wavetable.length; i++)
 	{
 		// offsets.push(offsets[i] + wavetable[i].array.length);
@@ -289,8 +351,11 @@ function wavetableToHeader(p_id, name, sampleRate)
 			text += b[k] + ", ";
 		}
 		text += "};\r\n";					
-	}
-	return text;
+    }
+    
+    var final_txt = class_template.replace('<<TXT_WAV>>', text);
+    final_txt =  final_txt.replace('<<SAMPLE_STRUCT>>', sample_struct)
+	return final_txt
 }
 
 

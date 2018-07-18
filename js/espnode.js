@@ -322,6 +322,10 @@ NodeLibrary.push({
     {
         return "";
     },
+    nodegenerateconn: function(conn, node)
+    {
+        return ( lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias  + ";\n");
+    },
     rpdnode: {
         title: 'Sample Pack Player',
         inlets:  { 

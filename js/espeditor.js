@@ -368,21 +368,41 @@ var NodeToCpp = function() {
                 setup_string +=  node_def.nodegeneratesetup(key, node);
     }
 
+    //Generate code for connected node
+    for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {
+
+        var conn = espNodeClassConnection[i];
+        var node_type = espNodeClassConnection[i].inlet_class;
+        var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
+        var node_in = _.findWhere(espNodeContainer, {nodeclass: node_type});
+
+        if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegenerateconn))
+            include_string +=  node_def.nodegenerateconn(conn,node_in);
+
+        // console.log(node_in);
+        // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+
+    }
+    
     
     //Generate code for connected node
     for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {
         
         var conn = espNodeClassConnection[i];
-        
+        var node_type = espNodeClassConnection[i].inlet_class;
+        var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
+
         if (conn.inlet_class !== "DAC")
             if (conn.outlet_alias.toLowerCase() === "out")
-                setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
+                if (_.isUndefined(node_def.nodegenerateconn))
+                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
             else
                 if (conn.outlet_class !== "ModuleConstant")
                     if (conn.outlet_class === "Param")
                         setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + '= &amp;param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
                     else
-                        setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+                        if (_.isUndefined(node_def.nodegenerateconn))
+                            setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
                 // else
                     // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "= new ModuleConstant() " + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
     }

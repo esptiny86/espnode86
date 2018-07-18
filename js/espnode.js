@@ -359,13 +359,10 @@ NodeLibrary.push({
     rpdnode: {
         title: 'Sample Pack Editor',
         inlets:  { 
-            'clock_input': { type: 'espnode/string' } ,
-            'sample_select': { type: 'espnode/string' } ,
             'comment': { type: 'espnode/string', default: 0, hidden: true },
             'sample_name': { type: 'espnode/string', default: 0, hidden: true }
         },
         outlets: { 
-            'out': { type: 'espnode/string' } 
         },
         process: function(inlets) {
             // return { 'number': inlets['user-value'] };

@@ -63,7 +63,7 @@
         <script src="js/espexport.js"></script>
         
         <link rel="stylesheet" href="css/espnode.css"></style>
-        <link rel="stylesheet" href="css/rpd-pink.css"></style>
+        <link id="theme_css" rel="stylesheet" href="css/rpd-pink.css"></style>
 
     </head>
 
@@ -98,13 +98,21 @@
                 }
             }
             });
+        
+        var chooseTheme = function(theme) {
+                console.log(theme);
+                document.getElementById('theme_css').href = 'css/' + theme;
+        }
 
-
-        hotkeys('ctrl+o,ctrl+k,ctrl+l', function(event,handler) {
+        hotkeys('ctrl+o,ctrl+k,ctrl+l,ctrl+1,ctrl+2,ctrl+3,ctrl+4', function(event,handler) {
             switch(handler.key){
                 case "ctrl+o":LoadNodeCode();break;
                 case "ctrl+k":showNodeCode();break;
                 case "ctrl+l":NodeToCPPDownload();break;
+                case "ctrl+1":chooseTheme('rpd-pink.css');break;
+                case "ctrl+2":chooseTheme('rpd-coco.css');break;
+                case "ctrl+3":chooseTheme('rpd-dark.css');break;
+                case "ctrl+4":chooseTheme('rpd-90s.css');break;
             }
         });
             

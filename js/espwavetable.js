@@ -283,7 +283,7 @@ public:
     Module *trigger_input;
     Module *sample_select;
 
-    ModuleSample<<TXT_SAMPLER_NAME>>()
+    ModuleSamplePack<<TXT_SAMPLER_NAME>>()
     {
         this->counter = 0;  
         this->clocked = false;

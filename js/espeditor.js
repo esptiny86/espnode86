@@ -343,15 +343,20 @@ var NodeToCpp = function() {
 
         //all except constant module
         if (_.isUndefined(node_def.nodegenerateheader))
+        {
             if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC"&& node.nodeclass !== "Param" && node.nodeclass !== "NodeList") 
                 include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+        }
 
         // console.log(node.nodeclass);
         if (_.isUndefined(node_def.nodegeneratesetup))
+        {
             for (var key in node.nodeinletvalue) {
                 if (key !== "user-value" && node.nodeclass !== "DAC"  && node.nodeinletvalue[key] !== 0 && node.nodeinletvalue[key][1] !== "0" && node.nodeinletvalue[key][1] !== 0)
                     setup_string = setup_string + node.nodevariable + "->" + key + " = new ModuleConstant(" + node.nodeinletvalue[key][1] + ");\n";
-            }
+            }            
+        }
+
 
     }
 
@@ -392,26 +397,28 @@ var NodeToCpp = function() {
         var node_type = espNodeClassConnection[i].inlet_class;
         var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
 
-        if (conn.inlet_class !== "DAC")
-        {
-            if (conn.outlet_alias.toLowerCase() === "out")
+        if (_.isUndefined(node_def.nodegenerateconn)){
+            if (conn.inlet_class !== "DAC")
             {
-                if (_.isUndefined(node_def.nodegenerateconn))
-                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
-            } else {
-                if (conn.outlet_class !== "ModuleConstant")
+                if (conn.outlet_alias.toLowerCase() === "out")
                 {
-                    if (conn.outlet_class === "Param")
+                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
+                } else {
+                    if (conn.outlet_class !== "ModuleConstant")
                     {
-                        setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + '= &amp;param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
-
-                    }else{
-                        if (_.isUndefined(node_def.nodegenerateconn))
-                            setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+                        if (conn.outlet_class === "Param")
+                        {
+                            setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + '= &amp;param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
+    
+                        }else{
+                            if (_.isUndefined(node_def.nodegenerateconn))
+                                setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+                        }
                     }
                 }
             }
         }
+
                 // else
                     // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "= new ModuleConstant() " + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
     }
@@ -419,9 +426,21 @@ var NodeToCpp = function() {
 
     // For dac last module
     for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {        
-        var conn = espNodeClassConnection[i];        
+        var conn = espNodeClassConnection[i]; 
+        var node_type = espNodeClassConnection[i].inlet_class;
+        var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
+        var node_outlet = _.findWhere(espNodeContainer, {nodeclass: conn.outlet_class});
+
         if (conn.inlet_class === "DAC")
-            setup_string =  setup_string + "\n\nthis->last_module = " + conn.outlet_class_alias + ";\n";
+        {   
+            console.log(conn);
+            if (conn.outlet_class === 'ModuleSamplePack')
+            {
+                setup_string =  setup_string + "\n\nthis->last_module = " +  lowCaseFirst(conn.outlet_class) +"_"+ node_outlet.nodeinletvalue.sample[1] + ";\n";
+            }else{
+                setup_string =  setup_string + "\n\nthis->last_module = " + conn.outlet_class_alias + ";\n";
+            }
+        }
     }
 
 

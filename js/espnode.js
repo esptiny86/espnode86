@@ -316,7 +316,9 @@ NodeLibrary.push({
     nodegenerateheader: function(node)
     {
         var node_class = node.nodeclass + node.nodeinletvalue.sample[1];
-        return (node_class + " *" + lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + " = new " + node_class + "();\n");
+        // return (node_class + " *" + lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + " = new " + node_class + "();\n");
+        return "";
+
     },
     nodegeneratesetup: function(key,node)
     {
@@ -324,7 +326,10 @@ NodeLibrary.push({
     },
     nodegenerateconn: function(conn, node)
     {
-        return ( lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias  + ";\n");
+        if (conn.outlet_class !== "Param")
+            return ( lowCaseFirst(node.nodeclass)+"_"+ node.nodeinletvalue.sample[1] + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias  + ";\n");
+        else
+            return ""
     },
     rpdnode: {
         title: 'Sample Pack Player',

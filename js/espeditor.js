@@ -393,16 +393,25 @@ var NodeToCpp = function() {
         var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
 
         if (conn.inlet_class !== "DAC")
+        {
             if (conn.outlet_alias.toLowerCase() === "out")
+            {
                 if (_.isUndefined(node_def.nodegenerateconn))
                     setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
-            else
+            } else {
                 if (conn.outlet_class !== "ModuleConstant")
+                {
                     if (conn.outlet_class === "Param")
+                    {
                         setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + '= &amp;param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
-                    else
+
+                    }else{
                         if (_.isUndefined(node_def.nodegenerateconn))
                             setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
+                    }
+                }
+            }
+        }
                 // else
                     // setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "= new ModuleConstant() " + conn.outlet_class_alias + "->" + conn.outlet_alias.toLowerCase() +";\n";
     }

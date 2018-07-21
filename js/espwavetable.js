@@ -274,7 +274,6 @@ struct sample_data {
 #define ModuleSample<<TXT_SAMPLER_NAME>>_h
 
 #include "Module.h"
-#include "drum_sampler.h"
 
 <<TXT_WAV>>
 

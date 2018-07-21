@@ -277,7 +277,7 @@ struct sample_data {
 
 <<TXT_WAV>>
 
-class ModuleSample<<TXT_SAMPLER_NAME>> : public Module
+class ModuleSamplePack<<TXT_SAMPLER_NAME>> : public Module
 {
 public:
     Module *trigger_input;

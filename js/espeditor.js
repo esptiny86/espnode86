@@ -252,7 +252,9 @@ var espAddToConnection = function(node)
         inlet_alias: node.link.inlet.alias,
         outlet_class_alias: node_out.nodevariable,
         outlet_class: node_out.nodeclass,
-        outlet_alias: node.link.outlet.alias
+        outlet_alias: node.link.outlet.alias,
+        node_in_id: node_in.nodeid,
+        node_out_id: node_out.nodeid
     });
 
 }   
@@ -335,16 +337,46 @@ var NodeToCpp = function() {
     var include_string = ""
     var setup_string = ""
 
+
+    //Patch node class variable
+    for (var i = 0, l = espNodeContainer.length; i < l; i++) {
+            var node = espNodeContainer[i];
+            var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
+            if (node.nodeclass === "ModuleSamplePack"){
+                node.nodevariable =  node.nodeclass + "_" + node.nodeinletvalue.sample[1];
+            }
+    }    
+
+    //Generate code for connected node
+    for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {
+        
+        var conn = espNodeClassConnection[i];
+        var node_in_type = espNodeClassConnection[i].inlet_class;
+        var node_out_type = espNodeClassConnection[i].outlet_class;
+
+        var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
+
+        if (node_in_type === 'ModuleSamplePack')
+        {
+            var inlet = _.findWhere(espNodeContainer, {nodeid: conn.node_in_id});
+            conn.inlet_class_alias = inlet.nodevariable        
+        }
+        if (node_out_type === 'ModuleSamplePack')
+        {
+            var outlet = _.findWhere(espNodeContainer, {nodeid: conn.node_out_id});
+            conn.outlet_class_alias = outlet.nodevariable        
+        }
+
+    }
+
+
+
+
     //Generate Module Init and setup
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {
         
-
         var node = espNodeContainer[i];
         var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
-
-        if (node.nodeclass === "ModuleSamplePack"){
-            node.nodevariable =  node.nodeclass + "_" + node.nodeinletvalue.sample[1];
-        }
 
         //all except constant module
         if (_.isUndefined(node_def.nodegenerateheader))
@@ -386,6 +418,7 @@ var NodeToCpp = function() {
         var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
         var node_in = _.findWhere(espNodeContainer, {nodeclass: node_type});
 
+        
         if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegenerateconn))
             include_string +=  node_def.nodegenerateconn(conn,node_in);
 

@@ -359,12 +359,12 @@ var NodeToCpp = function() {
         if (node_in_type === 'ModuleSamplePack')
         {
             var inlet = _.findWhere(espNodeContainer, {nodeid: conn.node_in_id});
-            conn.inlet_class_alias = inlet.nodevariable        
+            conn.inlet_class_alias = lowCaseFirst(inlet.nodevariable);        
         }
         if (node_out_type === 'ModuleSamplePack')
         {
             var outlet = _.findWhere(espNodeContainer, {nodeid: conn.node_out_id});
-            conn.outlet_class_alias = outlet.nodevariable        
+            conn.outlet_class_alias = lowCaseFirst(outlet.nodevariable);      
         }
 
     }

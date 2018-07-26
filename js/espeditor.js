@@ -495,6 +495,7 @@ var NodeToCpp = function() {
     // console.log(setup_string);
 
 var class_template = `
+
 #ifndef SYNTHTEST_H
 #define SYNTHTEST_H
 #include "Synth.h"

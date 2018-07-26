@@ -509,7 +509,8 @@ class SynthTest : public Synth
 
     SynthTest()
     {
-        
+    
+        //Define Node Objects
 <<INCLUDE_STRING>>
 <<SETUP_STRING>>        
     }
@@ -517,8 +518,18 @@ class SynthTest : public Synth
 #endif // SYNTHTEST_H    
 `
 
-    var final_txt = class_template.replaceAll('<<INCLUDE_STRING>>', include_string);    
-    final_txt =  final_txt.replaceAll('<<SETUP_STRING>>', setup_string)
+function indent(str, numOfIndents, opt_spacesPerIndent) {
+      str = str.replace(/^(?=.)/gm, new Array(numOfIndents + 1).join('\t'));
+      numOfIndents = new Array(opt_spacesPerIndent + 1 || 0).join(' '); // re-use
+      return opt_spacesPerIndent
+        ? str.replace(/^\t+/g, function(tabs) {
+            return tabs.replace(/./g, numOfIndents);
+        })
+        : str;
+    }
+
+    var final_txt = class_template.replaceAll('<<INCLUDE_STRING>>', indent(include_string,1,0));    
+    final_txt =  final_txt.replaceAll('<<SETUP_STRING>>', indent(setup_string,1,0))
     final_txt =  final_txt.replaceAll('<<HEADER_STRING>>', header_string)
 
     
@@ -692,7 +703,7 @@ var NodeToCPPandNetwork = function()
     var base64Net = chunk(btoa(NodeToPlainNetwork()), 200).join("\n");
     var nodeCpp = NodeToCpp();
 
-    var code_export = '\n\n/* \n\nThis is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "\n\n" + nodeCpp;
+    var code_export = '\n\n/* \n\nThis is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "" + nodeCpp;
     
     code_export = code_export + "\n\n// end of espnode86 generated code //\n\n";
     

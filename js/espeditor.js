@@ -703,9 +703,9 @@ var NodeToCPPandNetwork = function()
     var base64Net = chunk(btoa(NodeToPlainNetwork()), 200).join("\n");
     var nodeCpp = NodeToCpp();
 
-    var code_export = '\n\n/* \n\nThis is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "" + nodeCpp;
+    var code_export = nodeCpp + '\n\n/* \n\nThis is espnode86 stuff do not edit\n\n--BEGINESPNODEPATCH--\n' + base64Net + '\n--ENDESPNODEPATCH--\n\n*/\n\n' + "";
     
-    code_export = code_export + "\n\n// end of espnode86 generated code //\n\n";
+    // code_export = code_export + "\n\n// end of espnode86 generated code //\n\n";
     
     return code_export;
 }

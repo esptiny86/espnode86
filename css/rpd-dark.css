@@ -179,7 +179,7 @@
 
 .rpd-link {
     height: 1px;
-    background-color: rgba(250,250,250,0.8);
+    background-color: rgba(63, 174, 192, 0.8);
 }
 
 .rpd-link.rpd-disabled {
@@ -266,7 +266,7 @@
 }
 
 .rpd-stale .rpd-connector {
-    border-color: #000;
+    border-color: #e124ede6;
     background-color: #fff;
     transition: border-color .3s ease-out;
 }

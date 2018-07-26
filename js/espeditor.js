@@ -339,11 +339,13 @@ var NodeToCpp = function() {
 
 
     //Patch node class variable
+    var cnt = 0;
+
     for (var i = 0, l = espNodeContainer.length; i < l; i++) {
             var node = espNodeContainer[i];
             var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
             if (node.nodeclass === "ModuleSamplePack"){
-                node.nodevariable =  node.nodeclass + "_" + node.nodeinletvalue.sample[1];
+                node.nodevariable =  node.nodeclass + "_" + node.nodeinletvalue.sample[1] + "_" + cnt++;
             }
     }    
 

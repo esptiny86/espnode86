@@ -329,9 +329,13 @@ NodeLibrary.push({
         if (conn.outlet_class === "Param")
         {
             return   lowCaseFirst(conn.inlet_class_alias) +  "->" + conn.inlet_alias.toLowerCase() + ' = &amp;param[' + (parseInt(conn.outlet_alias.toLowerCase().replace(/\D/g,''))-1) +"];\n";
+        }else if (conn.outlet_class === "ModuleConstant") {
+            return   lowCaseFirst(conn.inlet_class_alias) +  "->" + conn.inlet_alias.toLowerCase() + ' = new ModuleConstant(0)';
         }else{
             return ( lowCaseFirst(conn.inlet_class_alias) + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias  + ";\n");
         }
+
+        
     },
     rpdnode: {
         title: 'Sample Pack Player',

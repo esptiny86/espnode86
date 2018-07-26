@@ -501,7 +501,6 @@ var class_template = `
 #include "Modules.h"
 
 <<HEADER_STRING>>
-
 class SynthTest : public Synth
 {
     public:

@@ -334,6 +334,7 @@ var espDeleteFromContainer = function(node)
 
 var NodeToCpp = function() {
 
+    var header_string = ""
     var include_string = ""
     var setup_string = ""
 
@@ -353,7 +354,7 @@ var NodeToCpp = function() {
 
     includes_header = _.uniq(includes_header).join("")
 
-    include_string = include_string + includes_header;
+    header_string = header_string + includes_header;
 
     //Generate code for connected node
     for (var i = 0, l = espNodeClassConnection.length; i < l; i++) {
@@ -493,7 +494,35 @@ var NodeToCpp = function() {
     // console.log(include_string);
     // console.log(setup_string);
 
-    return include_string + "\n\n" + setup_string;
+var class_template = `
+#ifndef SYNTHTEST_H
+#define SYNTHTEST_H
+#include "Synth.h"
+#include "Modules.h"
+
+<<HEADER_STRING>>
+
+class SynthTest : public Synth
+{
+    public:
+    ModuleConstant param[8];
+
+    SynthTest()
+    {
+        
+<<INCLUDE_STRING>>
+<<SETUP_STRING>>        
+    }
+};
+#endif // SYNTHTEST_H    
+`
+
+    var final_txt = class_template.replaceAll('<<INCLUDE_STRING>>', include_string);    
+    final_txt =  final_txt.replaceAll('<<SETUP_STRING>>', setup_string)
+    final_txt =  final_txt.replaceAll('<<HEADER_STRING>>', header_string)
+
+    
+    return final_txt;
 } 
 
 var NodeToPlainNetwork = function() 

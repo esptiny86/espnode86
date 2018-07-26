@@ -224,7 +224,7 @@ NodeLibrary.push({
     nodetype: 'espnode/constant',
     nodeclass: "ModuleConstant",
     rpdnode: {
-        title: 'Constant',
+        title: 'Constant|0-1023',
         inlets:  { 'user-value': { type: 'espnode/string', default: 0, hidden: true } },
         outlets: { 'number':     { type: 'espnode/string' } },
         process: function(inlets) {

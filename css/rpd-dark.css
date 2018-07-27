@@ -173,7 +173,7 @@
     font-family: 'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;
     font-size: 0.7em;
     color: #c0c0c0;
-    background-color: #444;
+    background-color: #141414;
     margin: 0;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .rpd-node .rpd-title {
-    background-color: #656565;
+    background-color: #414141;
     padding: 3px 5px;
     color: #eee;
 }
@@ -437,7 +437,7 @@
     border-width: 0px 1px 1px 1px;
     /* border-radius: 0 0 4px 4px; */
     border-style: solid;
-    background-color: #4b4b4b;
+    background-color: #262626;
     background-clip: border-box;
 }
 

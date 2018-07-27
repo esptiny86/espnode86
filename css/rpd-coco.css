@@ -15,6 +15,22 @@
  * User Toolkits: [None]
  */
 
+ .rpd-espnode-nodelist li {
+    cursor: pointer;
+    padding: 1px 0px 1px 0px;
+    /* vertical-align: middle; */
+    margin: 2px 0;
+    background-color: rgba(216, 207, 139, 0.4) !important;
+    /*! border-radius: 5px; */
+    -webkit-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+    /* border-color: white; */
+}
+
+ .egolab {
+    color: #907000 !important;
+}
+
  .rpd-network {
     margin: 0;
 }
@@ -173,13 +189,13 @@
     font-family: 'PT Mono', 'Andale Mono', 'Fira mono', 'Menlo', sans-serif;
     font-size: 0.7em;
     color: #111;
-    background-color: #dece8e;
+    background-color: #f6ebbd;
     margin: 0;
 }
 
 .rpd-link {
     height: 1px;
-    background-color: rgba(250,250,250,0.8);
+    background-color: rgba(2, 156, 31, 0.8);
 }
 
 .rpd-link.rpd-disabled {
@@ -207,7 +223,7 @@
 }
 
 .rpd-node .rpd-title {
-    background-color: #d7ae4c;
+    background-color: #ffdf93;
     padding: 3px 5px;
     color: #eee;
 }
@@ -266,7 +282,7 @@
 }
 
 .rpd-stale .rpd-connector {
-    border-color: #000;
+    border-color: #1bab1d;
     background-color: #fff;
     transition: border-color .3s ease-out;
 }
@@ -425,7 +441,7 @@
     display: table-caption;
     background-clip: border-box;
     border-style: solid;
-    border-color: rgb(200, 200, 200);
+    border-color: rgb(254, 197, 2);
     border-width: 1px 1px 0 1px;
     border-radius: 2px 2px 0 0;
     /* border-radius: 4px 4px 0 0; */
@@ -433,7 +449,7 @@
 }
 
 .rpd-node .rpd-content {
-    border-color: rgb(200, 200, 200);
+    border-color: rgb(254, 197, 2);
     border-width: 0px 1px 1px 1px;
     /* border-radius: 0 0 4px 4px; */
     border-style: solid;
@@ -474,7 +490,7 @@ table.rpd-node thead.rpd-title th {
 
 .rpd-name {
     padding: 4px 2px;
-    color: rgb(0, 0, 0);
+    color: rgb(162, 137, 0);
 }
 
 .rpd-inlet,

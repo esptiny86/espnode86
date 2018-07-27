@@ -120,8 +120,14 @@
     }    
 
 
+    .vex-content-splash {
+        width: 640px !important;
+        
+    }
+
     .vex.vex-theme-wireframe .vex-content {
-        background: #FFF !important;
+        background: #000 !important;
+        color: #fff !important;
     }
 
     .rpd-canvas{

@@ -70,7 +70,14 @@
     <body id="main">
         
         <div class="egolab" style="z-index: 1; line-height: 1.5em; font-size: 0.8em;color: #fff; position: absolute; bottom: 50px; left: 50px; z-index: 100000;">
-            Espnode86 : Audio Design Tools For Espsynth86<br> Press CTRL+L to Save Code, CTRL+O To Load Code, CTRL+K to Copy Code <br> <span style="line-height: 1.5em; font-size:0.8em">Code by Manticore@EGOLAB powered by RPD Framework 2.1.1</span>
+            Espnode86 : Audio Design Tools For Espsynth86<br> Press CTRL+L to Save Code, CTRL+O To Load Code, CTRL+K to Copy Code <br> <span style="line-height: 1.5em; font-size:0.8em">Code by Budi Prakosa powered by RPD 2.1.1 and MicrobeModular Equation Player sound engine</span>
+        </div>
+
+        <div id="splash" style="display: none;">
+            <div style="width: 500px">
+                    <img src="images/esptiny.png">
+            </div>
+
         </div>
 
         <script>
@@ -207,6 +214,19 @@
                 })
             }
 
+
+        </script>
+
+        <script>
+                    vex.dialog.alert({
+                        className: "vex-theme-wireframe vex-splash",
+                        contentClassName: "vex-content vex-content-splash",
+                        unsafeMessage: document.getElementById("splash").innerHTML,
+                        callback: function(){
+
+                        }
+
+                    });
         </script>
     </body>
 </html>

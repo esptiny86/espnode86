@@ -122,9 +122,9 @@
 
     .vex-content-splash {
         width: 640px !important;
-        -webkit-box-shadow: 0px 0px 17px 3px rgba(255,191,0,0.53);
-        -moz-box-shadow: 0px 0px 17px 3px rgba(255,191,0,0.53);
-        box-shadow: 0px 0px 17px 3px rgba(255,191,0,0.53);
+        -webkit-box-shadow: 0px 0px 17px 3px rgba(119, 119, 119, 0.5);
+        -moz-box-shadow: 0px 0px 17px 3px rgba(119, 119, 119, 0.5);
+        box-shadow: 0px 0px 17px 3px rgba(119, 119, 119, 0.5);
         /* height: 730px !important; */
     }
 

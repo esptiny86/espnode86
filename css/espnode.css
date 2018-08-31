@@ -110,7 +110,13 @@
     /* color: #000; */
 }
 
+_::-moz-range-track, body:last-child .rpd-inlet {
+        margin-top: -0.5em !important;
+}
 
+_::-moz-range-track, body:last-child .rpd-connector {
+        margin-top: -0.7em !important;
+}
 
     .vex.vex-theme-wireframe .vex-content {
       padding: 1em !important;

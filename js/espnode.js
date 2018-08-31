@@ -504,7 +504,7 @@ NodeLibrary.push({
     nodetype: 'espnode/nodelist',
     nodeclass: "NodeList",
     rpdnode: {
-        title: 'Node Pallete'
+        title: 'Espnode Palette'
     }
 });
 

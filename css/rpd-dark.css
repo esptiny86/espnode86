@@ -207,7 +207,7 @@
 }
 
 .rpd-node .rpd-title {
-    background-color: #414141;
+    background-color: #000000;
     padding: 3px 5px;
     color: #eee;
 }
@@ -437,8 +437,9 @@
     border-width: 0px 1px 1px 1px;
     /* border-radius: 0 0 4px 4px; */
     border-style: solid;
-    background-color: #262626;
+    background-color: #979797;
     background-clip: border-box;
+    color: #000;
 }
 
 table.rpd-node {
@@ -474,7 +475,7 @@ table.rpd-node thead.rpd-title th {
 
 .rpd-name {
     padding: 4px 2px;
-    color: rgb(212, 212, 212);
+color: rgb(255, 255, 255);
 }
 
 .rpd-inlet,

@@ -1,7 +1,7 @@
 var NodeLibrary = [];
 
 NodeLibrary.push({
-    nodetype: 'espnode/mixer3',
+    nodetype: 'signal/mixer3',
     nodeclass: "ModuleMixer3",
     rpdnode : {
         title: "3 Ch Mixer",    
@@ -17,7 +17,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/mixer2',
+    nodetype: 'signal/mixer2',
     nodeclass: "ModuleMixer2",
     rpdnode : {
         title: "2 Ch Mixer",    
@@ -33,7 +33,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/oscillator',
+    nodetype: 'wave/oscillator',
     nodeclass: "ModuleWavetableOsc",
     rpdnode : {
         title: "Oscillator",    
@@ -48,7 +48,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/lfo',
+    nodetype: 'wave/lfo',
     nodeclass: "ModuleLFO",
     rpdnode : {
         title: "LF Oscillator",    
@@ -63,7 +63,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/lowpass',
+    nodetype: 'filter/lowpass',
     nodeclass: "ModuleLowpassFilter",
     rpdnode : {
         title: "Low Pass Filter",    
@@ -79,7 +79,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/bitcrusher',
+    nodetype: 'filter/bitcrusher',
     nodeclass: "ModuleBitReducer",    
     rpdnode : {
         title: "Bit Crusher",    
@@ -94,7 +94,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/multiplexer',
+    nodetype: 'input/multiplexer',
     nodeclass: "Param",
     rpdnode : {
         title: "Multiplexer",    
@@ -114,7 +114,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/delay',
+    nodetype: 'filter/delay',
     nodeclass: "ModuleDelay",
     rpdnode : {
         title: "Audio Delay",
@@ -129,10 +129,10 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/vca',
+    nodetype: 'signal/vca',
     nodeclass: "ModuleVCA",
     rpdnode : {
-        title: "VCA",
+        title: "VCA (Voltage Ctrl Amplifier)",
         inlets: { 
             'audio_input': { type: 'espnode/string' } ,
             'cv_input': { type: 'espnode/string' } 
@@ -145,7 +145,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/reverb',
+    nodetype: 'filter/reverb',
     nodeclass: "ModuleReverb",
     rpdnode : {
         title: "Reverb",
@@ -162,7 +162,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/sampleplayer',
+    nodetype: 'sampler/sampleplayer',
     nodeclass: "ModuleSamplePlayer",
     rpdnode : {
         title: "Sample Player",
@@ -179,7 +179,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/tinysynth',
+    nodetype: 'wave/tinysynth',
     nodegenerateheader: function(node)
     {
         return (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "(" +  '"'  + decodeURIComponent(node.nodeinletvalue.ample[1]) + '"' + ")" + ";\n");
@@ -206,7 +206,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/dac',
+    nodetype: 'output/dac',
     nodeclass: "DAC",
     rpdnode : {
         title: "Audio DAC",
@@ -221,7 +221,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/constant',
+    nodetype: 'input/constant',
     nodeclass: "ModuleConstant",
     rpdnode: {
         title: 'Constant|0-1023',
@@ -235,7 +235,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/clock',
+    nodetype: 'timing/clock',
     nodeclass: "ModuleClock",
     nodegenerateheader: function(node)
     {
@@ -261,7 +261,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/counter',
+    nodetype: 'timing/counter',
     nodeclass: "ModuleCounter",
     nodegenerateheader: function(node)
     {
@@ -311,7 +311,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/samplepackplay',
+    nodetype: 'sampler/samplepackplay',
     nodeclass: "ModuleSamplePack",
     nodegenerateheader: function(node)
     {
@@ -357,7 +357,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/samplepack',
+    nodetype: 'sampler/samplepack',
     nodeclass: "WAVETABLE",
     nodegenerateheader: function(node)
     {
@@ -382,7 +382,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/map',
+    nodetype: 'input/map',
     nodeclass: "ModuleMap",
     nodegenerateheader: function(node)
     {
@@ -408,7 +408,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/clockdivider',
+    nodetype: 'timing/clockdivider',
     nodeclass: "ModuleClockDivider",
     rpdnode: {
         title: 'Clock Divider',
@@ -426,7 +426,7 @@ NodeLibrary.push({
 
 
 NodeLibrary.push({
-    nodetype: 'espnode/seqeuclidean',
+    nodetype: 'timing/seqeuclidean',
     nodeclass: "ModuleEuclideanSeq",
     rpdnode: {
         title: 'Euclidean Sequencer',
@@ -444,7 +444,7 @@ NodeLibrary.push({
 });
 
 NodeLibrary.push({
-    nodetype: 'espnode/clockrandom',
+    nodetype: 'timing/clockrandom',
     nodeclass: "ModuleClockedRandom",
     rpdnode: {
         title: 'Random Clock',
@@ -459,39 +459,39 @@ NodeLibrary.push({
 });
 
 
-NodeLibrary.push({
-    nodetype: 'espnode/envelope',
-    nodeclass: "ModuleENV",
-    rpdnode: {
-        title: 'Envelope',
-        inlets:  { 
-            'frequency_input': { type: 'espnode/string' } ,
-            'slope_input': { type: 'espnode/string' } ,
-            'trigger_input': { type: 'espnode/string' } ,
-        },
-        outlets: { 'out':     { type: 'espnode/string' } },
-        process: function(inlets) {
-            // return { 'number': inlets['user-value'] };
-        }
-    }
-});
+// NodeLibrary.push({
+//     nodetype: 'espnode/envelope',
+//     nodeclass: "ModuleENV",
+//     rpdnode: {
+//         title: 'Envelope',
+//         inlets:  { 
+//             'frequency_input': { type: 'espnode/string' } ,
+//             'slope_input': { type: 'espnode/string' } ,
+//             'trigger_input': { type: 'espnode/string' } ,
+//         },
+//         outlets: { 'out':     { type: 'espnode/string' } },
+//         process: function(inlets) {
+//             // return { 'number': inlets['user-value'] };
+//         }
+//     }
+// });
 
-NodeLibrary.push({
-    nodetype: 'espnode/arpeggio',
-    nodeclass: "ModuleArpeggio",
-    rpdnode: {
-        title: 'Arpeggio',
-        inlets:  { 
-            'root_note_input': { type: 'espnode/string' } ,
-            'pattern_input': { type: 'espnode/string' } ,
-            'clock_input': { type: 'espnode/string' } 
-        },
-        outlets: { 'out':     { type: 'espnode/string' } },
-        process: function(inlets) {
-            // return { 'number': inlets['user-value'] };
-        }
-    }
-});
+// NodeLibrary.push({
+//     nodetype: 'espnode/arpeggio',
+//     nodeclass: "ModuleArpeggio",
+//     rpdnode: {
+//         title: 'Arpeggio',
+//         inlets:  { 
+//             'root_note_input': { type: 'espnode/string' } ,
+//             'pattern_input': { type: 'espnode/string' } ,
+//             'clock_input': { type: 'espnode/string' } 
+//         },
+//         outlets: { 'out':     { type: 'espnode/string' } },
+//         process: function(inlets) {
+//             // return { 'number': inlets['user-value'] };
+//         }
+//     }
+// });
 
 var d3 = d3 || d3_tiny;
 var NodeList = RpdUtils.NodeList;
@@ -529,7 +529,7 @@ Rpd.noderenderer('espnode/nodelist', 'html', {
         var nodeEsp = {}
 
         for (var key in nodeTypes) {
-            if (key.includes("espnode") && ! key.includes("nodelist")) 
+            if (!key.includes("core") && ! key.includes("nodelist")) 
                 nodeEsp[key] = nodeTypes[key]
         }
 
@@ -609,7 +609,7 @@ Rpd.noderenderer('espnode/nodelist', 'html', {
 
 
 
-Rpd.noderenderer('espnode/constant', 'html', function(){
+Rpd.noderenderer('input/constant', 'html', function(){
     var valInput;
     
     return  {
@@ -668,7 +668,7 @@ Rpd.noderenderer('espnode/comment', 'html', function(){
     },   
 }});
 
-Rpd.noderenderer('espnode/samplepackplay', 'html', function(){
+Rpd.noderenderer('sampler/samplepackplay', 'html', function(){
     var valInput;
     
     return  {
@@ -703,7 +703,7 @@ Rpd.noderenderer('espnode/samplepackplay', 'html', function(){
 }});
 
 
-Rpd.noderenderer('espnode/tinysynth', 'html', function(){
+Rpd.noderenderer('wave/tinysynth', 'html', function(){
     var valInput;
     
     return  {
@@ -739,7 +739,7 @@ Rpd.noderenderer('espnode/tinysynth', 'html', function(){
 
 
 
-Rpd.noderenderer('espnode/clock', 'html', function(){
+Rpd.noderenderer('timing/clock', 'html', function(){
     var valInput;
     return  {
     first: function(bodyElm) {
@@ -787,7 +787,7 @@ Rpd.noderenderer('espnode/clock', 'html', function(){
 
 
 
-Rpd.noderenderer('espnode/counter', 'html', function(){
+Rpd.noderenderer('timing/counter', 'html', function(){
     var valInput;
     return  {
     first: function(bodyElm) {
@@ -818,7 +818,7 @@ Rpd.noderenderer('espnode/counter', 'html', function(){
 }});
 
 
-Rpd.noderenderer('espnode/map', 'html', function(){
+Rpd.noderenderer('input/map', 'html', function(){
     var valInput;
     return  {
     first: function(bodyElm) {
@@ -865,7 +865,7 @@ Rpd.noderenderer('espnode/map', 'html', function(){
 }});
 
 
-Rpd.channelrenderer('espnode/constant', 'html', {
+Rpd.channelrenderer('input/constant', 'html', {
     /* show: function(target, value) { }, */
     edit: function(target, inlet, valueIn) {
         var valInput = document.createElement('input');

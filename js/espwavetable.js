@@ -408,7 +408,7 @@ function saveHeader(p_id, sample_name)
 	// document.getElementById("files").className = "menu";
 }
 
-Rpd.noderenderer('espnode/samplepack', 'html', function(){
+Rpd.noderenderer('sampler/samplepack', 'html', function(){
     var valInput;
     var divSounds;
     var valBtn;

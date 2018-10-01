@@ -10,10 +10,7 @@ var project = {};
 // 	normalize: true,
 // 	wavetable: []
 // };
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
+
 
 function objFromId(p_id,id)
 {

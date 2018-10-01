@@ -8,6 +8,7 @@
   
   var COMMAND_SEPARATOR = '\n';
   var ARGS_SEPARATOR = ' ';
+  var ESPNODE_VERSION = 'v2.1.2';
   
   Rpd.export.plain = function(name) {
       var spec = exportSpec;
@@ -43,16 +44,56 @@
   }
   
   Rpd.import.plain = function(lines) {
+
+
+
+      var version = lines.split(COMMAND_SEPARATOR)[0];
+
+      var old_espsynth_node = [
+        ["espnode/mixer3", "signal/mixer3"],
+        ["espnode/mixer2","signal/mixer2"],
+        ["espnode/oscillator","wave/oscillator"],
+        ["espnode/lfo","wave/lfo"],
+        ["espnode/lowpass","filter/lowpass"],
+        ["espnode/bitcrusher","filter/bitcrusher"],
+        ["espnode/multiplexer","input/multiplexer"],
+        ["espnode/delay","filter/delay"],
+        ["espnode/vca","signal/vca"],
+        ["espnode/reverb","filter/reverb"],
+        ["espnode/sampleplayer","sampler/sampleplayer"],
+        ["espnode/tinysynth","wave/tinysynth"],
+        ["espnode/dac","output/dac"],
+        ["espnode/constant","input/constant"],
+        ["espnode/clock","timing/clock"],
+        ["espnode/counter","timing/counter"],
+        ["espnode/samplepackplay","sampler/samplepackplay"],
+        ["espnode/samplepack","sampler/samplepack"],
+        ["espnode/map","input/map"],
+        ["espnode/clockdivider","timing/clockdivider"],
+        ["espnode/seqeuclidean","timing/seqeuclidean"],
+        ["espnode/clockrandom","timing/clockrandom"],
+        ["espnode/constant","input/constant"],
+        ["espnode/samplepackplay","sampler/samplepackplay"],
+        ["espnode/tinysynth","wave/tinysynth"],
+        ["espnode/clock","timing/clock"],
+        ["espnode/counter","timing/counter"],
+        ["espnode/map","input/map"],
+        ["espnode/constant","input/constant"]
+      ]
+
+
+      if ((version !== ESPNODE_VERSION) && console && console.warn) {
+          console.warn('Plain file version', version, 'and RPD Version', Rpd.VERSION, 'are not equal to each other, update node list');
+          //make compatible with old version
+          for (var arr in old_espsynth_node) {
+            lines = lines.replaceAll(old_espsynth_node[arr][0], old_espsynth_node[arr][1])
+          }
+      }
+
+
       lines = lines.split(COMMAND_SEPARATOR);
   
-      var spec = makeImportSpec();
-  
-      var version = lines[0];
-  
-      if ((version !== Rpd.VERSION) && console && console.warn) {
-          console.warn('Plain file version', version, 'and RPD Version',
-                                             Rpd.VERSION, 'are not equal to each other');
-      }
+      var spec = makeImportSpec();  
   
       var commands = lines.slice(1);
   

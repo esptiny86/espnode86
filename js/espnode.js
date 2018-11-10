@@ -907,10 +907,3 @@ Rpd.channelrenderer('espnode/string', 'html', {
 });
 
 
-//Sort All Node
-NodeLibrary.sort(function(a,b) {return (a.nodetype > b.nodetype) ? 1 : ((b.nodetype > a.nodetype) ? -1 : 0);} );
-
-//Register All Node
-NodeLibrary.forEach(function(element){
-    Rpd.nodetype(element.nodetype, element.rpdnode)
-})

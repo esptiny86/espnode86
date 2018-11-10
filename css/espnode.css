@@ -153,3 +153,16 @@ _::-moz-range-track, body:last-child .rpd-connector {
     .btn_wave {
         border: 1px solid;
     }
+
+    .btn {
+        margin: 4px;
+        margin-right: 4px;
+        padding: 8px;
+    }
+
+    .val-input {
+        margin: 4px !important;        
+        padding: 8px;
+        margin-right: 4px;
+        border: 1px solid rgba(0, 0, 0, 1) !important;        
+    }

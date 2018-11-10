@@ -5,6 +5,14 @@ var espNodeCount = {};
 var espNodePos = {};
 var espRoot = "";
 
+//Sort All Node
+// NodeLibrary.sort(function(a,b) {return (a.nodetype > b.nodetype) ? 1 : ((b.nodetype > a.nodetype) ? -1 : 0);} );
+
+//Register All Node
+NodeLibrary.forEach(function(element){
+    Rpd.nodetype(element.nodetype, element.rpdnode)
+})
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);

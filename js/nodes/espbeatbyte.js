@@ -61,7 +61,22 @@ private:
     var final_txt = class_template.replaceAll('<<TXT_FORMULA>>', formula_compilation);    
     final_txt = final_txt.replaceAll('<<TXT_SAMPLER_NAME>>', player_name);    
 
-    return final_txt
+    var saveData = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, fileName) {
+            var json = (data),
+                blob = new Blob([json], {type: "text/plain"}),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+
+    saveData(final_txt, 'ModuleBeatByte_' + player_name + '.h')
 }
 
 
@@ -137,7 +152,12 @@ Rpd.noderenderer('espnode/beatbyteplayer', 'html', function(){
         valDownload.style.width = '130px';        
         valDownload.innerHTML = "Download Module"
         valDownload.className = "btn_wave btn"
-        valDownload.onclick = function(){ console.log("Wew") }
+        valDownload.onclick = function(){ 
+            (espbeatbyteGenerateModule(
+                valName.value,
+                valInput.value.split('\n')
+            )) 
+        }
 
         valToggle = document.createElement('button');
         valToggle.style.width = '130px';        
@@ -181,8 +201,7 @@ Rpd.noderenderer('espnode/beatbyteplayer', 'html', function(){
 (t*9&t>>4|t*5&t>>(7+(p1/2))|t*3&t/(1024-(p2/2)))-1
 (t>>6|t|t>>(t>>(16-(p1/2))))*10+((t>>11)&(7+(p2/2))) 
 t*(((t>>(11-(p2/2)))&(t>>8))&((123-p1)&(t>>3)))
-t*(t^t+(t>>15|1)^(t-(1280-(p1/2))^t)>>(10-(p2/5)))
-        `
+t*(t^t+(t>>15|1)^(t-(1280-(p1/2))^t)>>(10-(p2/5)))`
           
         return { 'comment':
                     { default: function() { valInput.value = 0; return formula; },

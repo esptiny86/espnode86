@@ -13,6 +13,7 @@ NodeLibrary.push({
         title: 'Beatbyte Player',
         inlets:  { 
             'select': { type: 'espnode/string' },            
+            'pitch': { type: 'espnode/string' },
             'p1': { type: 'espnode/string' } ,
             'p2': { type: 'espnode/string' },
             'p3': { type: 'espnode/string' },

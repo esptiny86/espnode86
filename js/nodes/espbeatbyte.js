@@ -123,7 +123,7 @@ t*(t^t+(t>>15|1)^(t-(1280-(p1/2))^t)>>(10-(p2/5)))
                                      .map(function() { return (valInput.value); })
                     },
                 'modulename':
-                    { default: function() { valName.value = 0; return formula; },
+                    { default: function() { valName.value = 0; return "ClassicBeat"; },
                       valueOut: Kefir.fromEvents(valName, 'change')
                                      .map(function() { return (valName.value); })
                     },

@@ -1,3 +1,70 @@
+function espbeatbyteGenerateFormula(idx, equation)
+{
+  return  '             case ' + idx + ': w = ' + equation +'; break;\n'
+}
+
+function espbeatbyteGenerateModule(player_name, formula)
+{
+    var class_template = `
+#ifndef ModuleBeatByte_<<TXT_SAMPLER_NAME>>_h
+#define ModuleBeatByte_<<TXT_SAMPLER_NAME>>_h
+
+class ModuleBeatByte_<<TXT_SAMPLER_NAME>> : public Module
+{
+public:
+    
+    Module *select;
+    Module *pitch;
+    Module *p1;   
+    Module *p2;
+    Module *p3; 
+    Module *p4; 
+    Module *p5; 
+
+    ModuleBeatByte_<<TXT_SAMPLER_NAME>>()
+    {
+        this->select = 0;  
+        this->pitch = 0;  
+        this->p1 = 0;  
+        this->p2 = 0;  
+        this->p3 = 0;  
+        this->p4 = 0;  
+        this->p5 = 0;          
+        t = 0;
+    }
+
+    uint16_t compute()
+    {
+        switch(select)
+        {
+<<TXT_FORMULA>>
+        }
+        t++;
+
+        return( w << 8 );
+    }
+
+private:
+    uint16_t t;
+    uint16_t w;    
+};
+
+#endif
+    `
+
+    var formula_compilation = ""
+
+    for (var i = formula.length - 1; i >= 0; i--) {
+        formula_compilation = formula_compilation + espbeatbyteGenerateFormula(i, formula[i]);
+    }
+
+    var final_txt = class_template.replaceAll('<<TXT_FORMULA>>', formula_compilation);    
+    final_txt = final_txt.replaceAll('<<TXT_SAMPLER_NAME>>', player_name);    
+
+    return final_txt
+}
+
+
 NodeLibrary.push({
     nodetype: 'espnode/beatbyteplayer',
     nodeclass: "ModuleBeatBytePlayer",

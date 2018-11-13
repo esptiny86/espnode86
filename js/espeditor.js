@@ -522,6 +522,7 @@ var class_template = `
 #define SYNTHTEST_H
 #include "Synth.h"
 #include "Modules.h"
+#include "ModuleExternalInput.h"
 
 <<HEADER_STRING>>
 class SynthTest : public Synth
@@ -529,7 +530,7 @@ class SynthTest : public Synth
     public:
     ModuleConstant param[8];
 
-    SynthTest()
+    SynthTest(Input_Manager * inputManager)
     {
     
         //Define Node Objects

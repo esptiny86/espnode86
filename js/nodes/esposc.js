@@ -6,7 +6,7 @@ NodeLibrary.push({
     nodegenerateheader: function(node)
     {
         var node_class = "ModuleExternalInput";
-        return (node_class + " *" + lowCaseFirst(node.nodeinletvalue.sample[1]) + " = new " + node_class + "(" + '"/' + node.nodeinletvalue.sample[1] + '"' + "," +  'inputManager' + ");\n");
+        return (node_class + " *" + lowCaseFirst(node.nodeinletvalue.sample[1]) + " = new " + node_class + "(" + '"/    ' + node.nodeinletvalue.sample[1] + '"' + "," +  'inputManager' + ");\n");
     },
     nodegeneratesetup: function(key,node)
     {
@@ -39,7 +39,7 @@ Rpd.noderenderer('input/osc', 'html', function(){
 
         valInput = document.createElement('input');
         valInput.style.width = '70px';
-        valInput.placeholder = '/osc1'
+        valInput.placeholder = 'osc1'
         // valInput.style.height = '100px';
         valInput.style.color = "#000";
         valInput.style.background = "#CCC";
@@ -54,7 +54,7 @@ Rpd.noderenderer('input/osc', 'html', function(){
 
           
         return { 'sample':
-                    { default: function() {  return "Sample1"; },
+                    { default: function() {  return "osc1"; },
                       valueOut: Kefir.fromEvents(valInput, 'change')
                                      .map(function() { return (valInput.value); })
                     }

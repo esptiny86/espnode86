@@ -5,7 +5,7 @@ NodeLibrary.push({
     nodeclass: "ModuleExternalInputOSC",
     nodegenerateheader: function(node)
     {
-        var node_class = node.nodeclass;
+        var node_class = "ModuleExternalInput";
         return (node_class + " *" + lowCaseFirst(node.nodeinletvalue.sample[1]) + " = new " + node_class + "(" + '"' + node.nodeinletvalue.sample[1] + '"' + "," +  'inputManager' + ");\n");
     },
     nodegeneratesetup: function(key,node)
@@ -14,7 +14,7 @@ NodeLibrary.push({
     },
     nodegenerateconn: function(conn, node)
     {
-        return ( lowCaseFirst(conn.inlet_class_alias) + "->" + conn.inlet_alias.toLowerCase() + "=" + " pot" + lowCaseFirst(node.nodeinletvalue.sample[1])  + ";\n");
+        return ( lowCaseFirst(conn.inlet_class_alias) + "->" + conn.inlet_alias.toLowerCase() + " =" + " " + lowCaseFirst(node.nodeinletvalue.sample[1])  + ";\n");
     },
     rpdnode: {
         title: 'OSC ~ Input',

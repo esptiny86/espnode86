@@ -14,7 +14,7 @@ NodeLibrary.push({
     },
     nodegenerateconn: function(conn, node)
     {
-        return ( lowCaseFirst(conn.inlet_class_alias) + "->" + conn.inlet_alias.toLowerCase() + "=" + " pot" + lowCaseFirst(node.nodeinletvalue.sample[1])  + ";\n");
+        return ( lowCaseFirst(conn.inlet_class_alias) + "->" + conn.inlet_alias.toLowerCase() + " =" + " pot" + lowCaseFirst(node.nodeinletvalue.sample[1])  + ";\n");
     },
     rpdnode: {
         title: 'Potentio ~ Input',

@@ -6,7 +6,7 @@ NodeLibrary.push({
     nodegenerateheader: function(node)
     {
         var node_class = node.nodeclass;
-        return ("ModuleExternalInput * pot" + lowCaseFirst(node.nodeinletvalue.sample[1]) + " = new ModuleExternalInput" + "("  + node.nodeinletvalue.sample[1] + "," +  'inputManager' + ");\n");
+        return ("ModuleExternalInput *pot" + lowCaseFirst(node.nodeinletvalue.sample[1]) + " = new ModuleExternalInput" + "("  + node.nodeinletvalue.sample[1] + "," +  'inputManager' + ");\n");
     },
     nodegeneratesetup: function(key,node)
     {

@@ -320,6 +320,7 @@ var espAddToContainer = function(node)
         nodedesc: encodeURIComponent(node.def.title),
         nodeclass: node_class,
         nodevariable: lowCaseFirst(node_class)  + "_" + espNodeCount[node_class],
+        nodevarcount: espNodeCount[node_class],
         nodetype: node.type,
         nodeinletvalue: {},
         nodeoutletvalue: {},    
@@ -348,7 +349,7 @@ var espDeleteFromContainer = function(node)
 var NodeToCpp = function() {
 
     var header_string = ""
-    var include_string = ""
+    var include_string = []
     var setup_string = ""
 
 
@@ -404,7 +405,7 @@ var NodeToCpp = function() {
         if (_.isUndefined(node_def.nodegenerateheader))
         {
             if (node.nodeclass !== "ModuleConstant" && node.nodeclass !== "DAC"&& node.nodeclass !== "Param" && node.nodeclass !== "NodeList") 
-                include_string += (node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
+                include_string.push(node.nodeclass + " *" + node.nodevariable + " = new " + node.nodeclass + "()" + ";\n");
         }
 
         // console.log(node.nodeclass);
@@ -426,7 +427,7 @@ var NodeToCpp = function() {
         var node = espNodeContainer[i];
         var node_def = _.findWhere(NodeLibrary, {nodetype: node.nodetype});
         if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegenerateheader))
-            include_string +=  node_def.nodegenerateheader(node);
+            include_string.push(node_def.nodegenerateheader(node));
         if (!_.isUndefined(node_def) && !_.isUndefined(node_def.nodegeneratesetup))
             for (var key in node.nodeinletvalue)
                 setup_string +=  node_def.nodegeneratesetup(key, node);
@@ -457,12 +458,19 @@ var NodeToCpp = function() {
         var node_type = espNodeClassConnection[i].inlet_class;
         var node_def = _.findWhere(NodeLibrary, {nodeclass: node_type});
 
+        var node_out_def = _.findWhere(NodeLibrary, {nodeclass: conn.outlet_class});
+        var node_outlet = _.findWhere(espNodeContainer, {nodeid: conn.node_out_id});
+        // console.log(conn);
         if (_.isUndefined(node_def.nodegenerateconn)){
             if (conn.inlet_class !== "DAC")
             {
                 if (conn.outlet_alias.toLowerCase() === "out")
                 {
-                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";
+                    if (!_.isUndefined(node_out_def.nodegenerateconn)){
+                    setup_string = setup_string + node_out_def.nodegenerateconn(conn,node_outlet)    
+                    }else{
+                    setup_string = setup_string + conn.inlet_class_alias + "->" + conn.inlet_alias.toLowerCase() + "=" + conn.outlet_class_alias +";\n";                        
+                    }
                 } else {
                     if (conn.outlet_class !== "ModuleConstant")
                     {
@@ -504,6 +512,7 @@ var NodeToCpp = function() {
     }
 
 
+    include_string = _.uniq(include_string).join("")
     // console.log(include_string);
     // console.log(setup_string);
 

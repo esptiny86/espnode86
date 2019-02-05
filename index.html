@@ -44,7 +44,6 @@
         <!-- <script src="../src/toolkit/timbre/html.js"></script> -->
         <!-- <script src="../src/io/json.js"></script> -->
 
-
         <script src="vendor/vex.combined.min.js"></script>
         <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
         <link rel="stylesheet" href="vendor/vex.css" />
@@ -58,10 +57,10 @@
         <script src="vendor/hotkeys.min.js"></script>
 
         <!-- Espnode custom node -->
-        <script src="js/espnode.js"></script>        
+        <script src="js/espnode.js"></script>
         <script src="js/nodes/espbeatbyte.js"></script>
         <script src="js/nodes/esposc.js"></script>
-        <script src="js/nodes/esppot.js"></script>        
+        <script src="js/nodes/esppot.js"></script>
         <script src="js/nodes/espwavetable.js"></script>
 
         <!-- Espnode system -->
@@ -81,9 +80,8 @@
 
         <div id="splash" style="display: none;">
             <div style="width: 500px">
-                    <img src="images/esptiny.png">
+                <img src="images/esptiny.png">
             </div>
-
         </div>
 
         <script>
@@ -101,34 +99,37 @@
             var nodeList = root.addNode('espnode/nodelist');
 
             FileReaderJS.setupDrop(document.body, {
-            readAsDefault: "Text",
-            on: {
-                load: function(e, file) {
-                    NodeImportCpp(e.target.result);
-                // espRoot.close();
-                // espNodeReset();
-                // NodeImportCpp(e.target.result);
+                readAsDefault: "Text",
+                on: {
+                    load: function(e, file) {
+                        NodeImportCpp(e.target.result);
+                    // espRoot.close();
+                    // espNodeReset();
+                    // NodeImportCpp(e.target.result);
+                    }
                 }
-            }
             });
         
-        var chooseTheme = function(theme) {
+            var chooseTheme = function(theme) {
                 console.log(theme);
                 document.getElementById('theme_css').href = 'css/' + theme;
-        }
-
-        hotkeys('ctrl+o,ctrl+k,ctrl+l,ctrl+1,ctrl+2,ctrl+3,ctrl+4', function(event,handler) {
-            switch(handler.key){
-                case "ctrl+o":LoadNodeCode();break;
-                case "ctrl+k":showNodeCode();break;
-                case "ctrl+l":NodeToCPPDownload();break;
-                case "ctrl+1":chooseTheme('rpd-pink.css');break;
-                case "ctrl+2":chooseTheme('rpd-coco.css');break;
-                case "ctrl+3":chooseTheme('rpd-dark.css');break;
-                case "ctrl+4":chooseTheme('rpd-90s.css');break;
             }
-        });
-            
+
+            hotkeys('ctrl+o,ctrl+k,ctrl+l,ctrl+1,ctrl+2,ctrl+3,ctrl+4', function(event, handler) {
+                event.preventDefault();
+
+                switch(handler.key){
+                    case "ctrl+o": loadNodeCode(); break;
+                    case "ctrl+k": showNodeCode(); break;
+                    case "ctrl+l": NodeToCPPDownload(); break;
+                    case "ctrl+1": chooseTheme('rpd-pink.css'); break;
+                    case "ctrl+2": chooseTheme('rpd-coco.css'); break;
+                    case "ctrl+3": chooseTheme('rpd-dark.css'); break;
+                    case "ctrl+4": chooseTheme('rpd-90s.css'); break;
+                }
+
+                return false;
+            });
 
             var showNodeCode = function()
             {
@@ -136,7 +137,6 @@
                 modalOpen = 1;
 
                 vex.dialog.defaultOptions.showCloseButton = false;
-266	
                 vex.dialog.open({
                     message: 'Copy paste to your Synth.h file',
                     showCloseButton: false,
@@ -162,20 +162,18 @@
                     },
                     beforeClose: function(){
                         modalOpen = 0;
-                    },                                        
+                    },
                     callback: function (data) {
                     
                     }
                 })
             }
 
-
-            var LoadNodeCode = function()
+            var loadNodeCode = function()
             {
                 if (modalOpen === 1) return;
                 modalOpen = 1;
                 vex.dialog.defaultOptions.showCloseButton = false;
-266	
                 vex.dialog.open({
                     message: 'Paste your Synth.h file here',
                     showCloseButton: false,
@@ -216,7 +214,7 @@
 
                         return this.close()
                     }
-    
+
                 })
             }
 
@@ -224,15 +222,14 @@
         </script>
 
         <script>
-                    vex.dialog.alert({
-                        className: "vex-theme-wireframe vex-splash",
-                        contentClassName: "vex-content vex-content-splash",
-                        unsafeMessage: document.getElementById("splash").innerHTML,
-                        callback: function(){
+            vex.dialog.alert({
+                className: "vex-theme-wireframe vex-splash",
+                contentClassName: "vex-content vex-content-splash",
+                unsafeMessage: document.getElementById("splash").innerHTML,
+                callback: function(){
 
-                        }
-
-                    });
+                }
+            });
         </script>
     </body>
 </html>
